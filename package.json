@@ -1,0 +1,36 @@
+{
+  "name": "swiss-army-knifey",
+  "version": "v0.0.1",
+  "description": "node equivalent of browser str.prototype.padStart str.prototype.padEnd",
+  "main": "build/src/index.js",
+  "types": "build/src/index.d.ts",
+  "scripts": {
+    "test": "tsc && NODE_ENV=test mocha --recursive ./build/test",
+    "start": "tsc && node ./build/index.js",
+    "serve": "tsc && NODE_ENV=production node ./build/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gbili/saylo.git"
+  },
+  "keywords": [],
+  "author": "Guillermo Pages <mail@guillermo.at> (https://guillermo.at)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gbili/saylo/issues"
+  },
+  "homepage": "https://github.com/gbili/saylo#readme",
+  "devDependencies": {
+    "@types/chai": "4.2.9",
+    "@types/chai-as-promised": "^7.1.4",
+    "@types/mocha": "7.0.1",
+    "@types/node": "^13.7.1",
+    "chai": "4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "dotenv": "^8.0.0",
+    "mocha": "6.1.4"
+  },
+  "directories": {
+    "test": "test"
+  }
+}

@@ -1,0 +1,20 @@
+language: node_js
+
+jobs:
+  include:
+    - stage: test
+      language: node_js
+      env:
+        - CODECOV_TOKEN="sometoken"
+        - NODE_ENV=development
+      node_js: lts/*
+      script:
+        - npm t
+        - npm run coverage
+    - stage: release
+      language: node_js
+      env:
+        - NODE_ENV=development
+      node_js: lts/*
+      script:
+        - npm run semantic-release
