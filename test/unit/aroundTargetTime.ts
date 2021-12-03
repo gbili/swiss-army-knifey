@@ -39,9 +39,16 @@ describe('time', function () {
     const shouldSucceed = true; // yes delta of 4 min < 10
 
     it(`should be ${shouldSucceed} for ${minutesMaxDistance} minutes distance when target is ${target[0]}:${target[1]} - ${targetTZ}, and dateToCompareToTarget is ${dateToCompareToInHosTZ[0]}:${dateToCompareToInHosTZ[1]} - ${hostTZ} (are same)`, async function() {
-      const timeIsMinutesAroundTarget = timeIsMinutesAroundTargetGen({ logger, hostTimeZone: getHostTimeZone(), targetTimeZone: targetTZ });
+      const timeIsMinutesAroundTarget = timeIsMinutesAroundTargetGen({ logger });
       const dateInHostTZ = new Date(`2021-12-02T${zeroPadded(dateToCompareToInHosTZ[0], 2)}:${zeroPadded(dateToCompareToInHosTZ[1], 2)}:00.000Z`);
-      expect(timeIsMinutesAroundTarget({ hostTZDate: dateInHostTZ, targetHourInTargetTZ: target[0], targetMinuteInTargetTZ: target[1], minutesDistance: minutesMaxDistance })).to.equal(shouldSucceed);
+      expect(timeIsMinutesAroundTarget({
+        hostTZDate: dateInHostTZ,
+        hostTimeZone: getHostTimeZone(),
+        targetTimeZone: targetTZ,
+        targetHourInTargetTZ: target[0],
+        targetMinuteInTargetTZ: target[1],
+        minutesDistance: minutesMaxDistance
+      })).to.equal(shouldSucceed);
     });
   });
 
@@ -54,9 +61,16 @@ describe('time', function () {
     const shouldSucceed = false; // no delta of 11 min > 10
 
     it(`should be ${shouldSucceed} for ${minutesMaxDistance} minutes distance when target is ${target[0]}:${target[1]} - ${targetTZ}, and dateToCompareToTarget is ${dateToCompareToInHosTZ[0]}:${dateToCompareToInHosTZ[1]} - ${hostTZ} (are same)`, async function() {
-      const timeIsMinutesAroundTarget = timeIsMinutesAroundTargetGen({ logger, hostTimeZone: getHostTimeZone(), targetTimeZone: targetTZ });
+      const timeIsMinutesAroundTarget = timeIsMinutesAroundTargetGen({ logger });
       const dateInHostTZ = new Date(`2021-12-02T${zeroPadded(dateToCompareToInHosTZ[0], 2)}:${zeroPadded(dateToCompareToInHosTZ[1], 2)}:00.000Z`);
-      expect(timeIsMinutesAroundTarget({ hostTZDate: dateInHostTZ, targetHourInTargetTZ: target[0], targetMinuteInTargetTZ: target[1], minutesDistance: minutesMaxDistance })).to.equal(shouldSucceed);
+      expect(timeIsMinutesAroundTarget({
+        hostTZDate: dateInHostTZ,
+        hostTimeZone: getHostTimeZone(),
+        targetTimeZone: targetTZ,
+        targetHourInTargetTZ: target[0],
+        targetMinuteInTargetTZ: target[1],
+        minutesDistance: minutesMaxDistance
+      })).to.equal(shouldSucceed);
     });
   });
 
@@ -69,9 +83,16 @@ describe('time', function () {
     const shouldSucceed = true; // yes delta of 11 min <= 11
 
     it(`should be ${shouldSucceed} for ${minutesMaxDistance} minutes distance when target is ${target[0]}:${target[1]} - ${targetTZ}, and dateToCompareToTarget is ${dateToCompareToInHosTZ[0]}:${dateToCompareToInHosTZ[1]} - ${hostTZ} (are same)`, async function() {
-      const timeIsMinutesAroundTarget = timeIsMinutesAroundTargetGen({ logger, hostTimeZone: getHostTimeZone(), targetTimeZone: targetTZ });
+      const timeIsMinutesAroundTarget = timeIsMinutesAroundTargetGen({ logger });
       const dateInHostTZ = new Date(`2021-12-02T${zeroPadded(dateToCompareToInHosTZ[0], 2)}:${zeroPadded(dateToCompareToInHosTZ[1], 2)}:00.000Z`);
-      expect(timeIsMinutesAroundTarget({ hostTZDate: dateInHostTZ, targetHourInTargetTZ: target[0], targetMinuteInTargetTZ: target[1], minutesDistance: minutesMaxDistance })).to.equal(shouldSucceed);
+      expect(timeIsMinutesAroundTarget({
+        hostTZDate: dateInHostTZ,
+        hostTimeZone: getHostTimeZone(),
+        targetTimeZone: targetTZ,
+        targetHourInTargetTZ: target[0],
+        targetMinuteInTargetTZ: target[1],
+        minutesDistance: minutesMaxDistance
+      })).to.equal(shouldSucceed);
     });
   });
 
@@ -84,9 +105,16 @@ describe('time', function () {
     const shouldSucceed = true; // yes delta of 9 min < 10
 
     it(`should be ${shouldSucceed} for ${minutesMaxDistance} minutes distance when target is ${target[0]}:${target[1]} - ${targetTZ}, and dateToCompareToTarget is ${dateToCompareToInHosTZ[0]}:${dateToCompareToInHosTZ[1]} - ${hostTZ} (are same)`, async function() {
-      const timeIsMinutesAroundTarget = timeIsMinutesAroundTargetGen({ logger, hostTimeZone: getHostTimeZone(), targetTimeZone: targetTZ });
+      const timeIsMinutesAroundTarget = timeIsMinutesAroundTargetGen({ logger });
       const dateInHostTZ = new Date(`2021-12-02T${zeroPadded(dateToCompareToInHosTZ[0], 2)}:${zeroPadded(dateToCompareToInHosTZ[1], 2)}:00.000Z`);
-      expect(timeIsMinutesAroundTarget({ hostTZDate: dateInHostTZ, targetHourInTargetTZ: target[0], targetMinuteInTargetTZ: target[1], minutesDistance: minutesMaxDistance })).to.equal(shouldSucceed);
+      expect(timeIsMinutesAroundTarget({
+        hostTZDate: dateInHostTZ,
+        hostTimeZone: getHostTimeZone(),
+        targetTimeZone: targetTZ,
+        targetHourInTargetTZ: target[0],
+        targetMinuteInTargetTZ: target[1],
+        minutesDistance: minutesMaxDistance
+      })).to.equal(shouldSucceed);
     });
   });
 
@@ -99,9 +127,16 @@ describe('time', function () {
     const shouldSucceed = false; // no delta of 11 min > 10
 
     it(`should be ${shouldSucceed} for ${minutesMaxDistance} minutes distance when target is ${target[0]}:${target[1]} - ${targetTZ}, and dateToCompareToTarget is ${dateToCompareToInHosTZ[0]}:${dateToCompareToInHosTZ[1]} - ${hostTZ} (are same)`, async function() {
-      const timeIsMinutesAroundTarget = timeIsMinutesAroundTargetGen({ logger, hostTimeZone: getHostTimeZone(), targetTimeZone: targetTZ });
+      const timeIsMinutesAroundTarget = timeIsMinutesAroundTargetGen({ logger });
       const dateInHostTZ = new Date(`2021-12-02T${zeroPadded(dateToCompareToInHosTZ[0], 2)}:${zeroPadded(dateToCompareToInHosTZ[1], 2)}:00.000Z`);
-      expect(timeIsMinutesAroundTarget({ hostTZDate: dateInHostTZ, targetHourInTargetTZ: target[0], targetMinuteInTargetTZ: target[1], minutesDistance: minutesMaxDistance })).to.equal(shouldSucceed);
+      expect(timeIsMinutesAroundTarget({
+        hostTZDate: dateInHostTZ,
+        hostTimeZone: getHostTimeZone(),
+        targetTimeZone: targetTZ,
+        targetHourInTargetTZ: target[0],
+        targetMinuteInTargetTZ: target[1],
+        minutesDistance: minutesMaxDistance
+      })).to.equal(shouldSucceed);
     });
   });
 
@@ -114,9 +149,16 @@ describe('time', function () {
     const shouldSucceed = true; // yes delta of 11 min < 61
 
     it(`should be ${shouldSucceed} for ${minutesMaxDistance} minutes distance when target is ${target[0]}:${target[1]} - ${targetTZ}, and dateToCompareToTarget is ${dateToCompareToInHosTZ[0]}:${dateToCompareToInHosTZ[1]} - ${hostTZ} (are same)`, async function() {
-      const timeIsMinutesAroundTarget = timeIsMinutesAroundTargetGen({ logger, hostTimeZone: getHostTimeZone(), targetTimeZone: targetTZ });
+      const timeIsMinutesAroundTarget = timeIsMinutesAroundTargetGen({ logger });
       const dateInHostTZ = new Date(`2021-12-02T${zeroPadded(dateToCompareToInHosTZ[0], 2)}:${zeroPadded(dateToCompareToInHosTZ[1], 2)}:00.000Z`);
-      expect(timeIsMinutesAroundTarget({ hostTZDate: dateInHostTZ, targetHourInTargetTZ: target[0], targetMinuteInTargetTZ: target[1], minutesDistance: minutesMaxDistance })).to.equal(shouldSucceed);
+      expect(timeIsMinutesAroundTarget({
+        hostTZDate: dateInHostTZ,
+        hostTimeZone: getHostTimeZone(),
+        targetTimeZone: targetTZ,
+        targetHourInTargetTZ: target[0],
+        targetMinuteInTargetTZ: target[1],
+        minutesDistance: minutesMaxDistance
+      })).to.equal(shouldSucceed);
     });
   });
 

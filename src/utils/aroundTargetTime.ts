@@ -1,10 +1,14 @@
 import { NeedsLogger, CurryFuncWithDepsGen } from "../commonTypes";
 
-type TimeIsMinutesAroundTargetProps = { hostTZDate: Date, targetHourInTargetTZ: number; targetMinuteInTargetTZ: number; minutesDistance: number; };
-export type TimeIsMinutesAroundTargetDeps = {}
-  & NeedsLogger
+type TimeIsMinutesAroundTargetProps = {}
+  & { hostTZDate: Date; }
+  & { targetHourInTargetTZ: number; }
+  & { targetMinuteInTargetTZ: number; }
+  & { minutesDistance: number; }
   & { hostTimeZone?: string }
   & { targetTimeZone?: string }
+export type TimeIsMinutesAroundTargetDeps = {}
+  & NeedsLogger
 export type TimeIsMinutesAroundTarget = (props: TimeIsMinutesAroundTargetProps) => boolean
 export type TimeIsMinutesAroundTargetGen = CurryFuncWithDepsGen<TimeIsMinutesAroundTargetDeps, TimeIsMinutesAroundTarget>
 
@@ -47,7 +51,7 @@ export const extractHoursMinsFromDateString = (date: Date) => {
   };
 };
 
-export const timeIsMinutesAroundTargetGen: TimeIsMinutesAroundTargetGen = ({ logger, targetTimeZone, hostTimeZone }) => ({ hostTZDate, targetHourInTargetTZ, targetMinuteInTargetTZ, minutesDistance }: TimeIsMinutesAroundTargetProps) => {
+export const timeIsMinutesAroundTargetGen: TimeIsMinutesAroundTargetGen = ({ logger }) => ({ hostTimeZone, hostTZDate, targetTimeZone, targetHourInTargetTZ, targetMinuteInTargetTZ, minutesDistance }: TimeIsMinutesAroundTargetProps) => {
   const dateInTargetTZ = extractHoursMinsFromDateString(correctDateToMatchTimeInTargetTimeZone(hostTZDate, targetTimeZone));
   const hoursDistance = Math.floor(minutesDistance / 60);
   const minutesRestDistance = minutesDistance % 60;
