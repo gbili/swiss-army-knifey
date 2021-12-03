@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { correctDateToMatchTimeInTargetTimeZone, getHostTimeZone, getHourDiff, hoursToAddToGoFromSourceToTargetTZ, timeIsMinutesAroundTargetGen } from '../../src/utils/aroundTargetTime';
+import { correctDateToMatchTimeInTargetTimeZone, extractParamsFromString, getHostTimeZone, getHourDiff, hoursToAddToGoFromSourceToTargetTZ, timeIsMinutesAroundTargetGen } from '../../src/utils/aroundTargetTime';
 import { zeroPadded } from '../../src/utils/pad';
 
 const logger = {
@@ -300,6 +300,32 @@ describe('time', function () {
     });
     it('Given a date in Europe/Zurich, you must add 1 to get the date in target Europe/Sofia', async function() {
       expect(hoursToAddToGoFromSourceToTargetTZ('Europe/Zurich', 'Europe/Sofia')).to.equal(1);
+    });
+  });
+  describe(`extractParamsFromString`, function() {
+    it('should return two sets of params', async function() {
+      const res = extractParamsFromString('2,47,10,Europe/Zurich;1,0,9,Europe/Sofia')
+      expect(res.length).to.equal(2);
+    });
+    it('should return sets where the first has the H set properly', async function() {
+      const res = extractParamsFromString('2,47,10,Europe/Zurich;1,0,9,Europe/Sofia')
+      const [res1,] = res;
+      expect(res1.targetHourInTargetTZ).to.equal(2);
+    });
+    it('should return sets where the first has the M set properly', async function() {
+      const res = extractParamsFromString('2,47,10,Europe/Zurich;1,0,9,Europe/Sofia')
+      const [res1,] = res;
+      expect(res1.targetMinuteInTargetTZ).to.equal(47);
+    });
+    it('should return sets where the first has the minutesDistance set properly', async function() {
+      const res = extractParamsFromString('2,47,10,Europe/Zurich;1,0,9,Europe/Sofia')
+      const [res1,] = res;
+      expect(res1.minutesDistance).to.equal(10);
+    });
+    it('should return sets where the first has the timezone set properly', async function() {
+      const res = extractParamsFromString('2,47,10,Europe/Zurich;1,0,9,Europe/Sofia')
+      const [res1,] = res;
+      expect(res1.targetTimeZone).to.equal('Europe/Zurich');
     });
   });
 });

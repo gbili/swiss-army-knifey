@@ -1,6 +1,6 @@
 {
   "name": "swiss-army-knifey",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "node equivalent of browser str.prototype.padStart str.prototype.padEnd",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",

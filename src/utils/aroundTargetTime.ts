@@ -34,6 +34,18 @@ export const hoursToAddToGoFromSourceToTargetTZ = (sourceTimeZone: string, targe
 }
 
 /**
+ * S
+ * @param str string Ex: '2,47,10,Europe/Zurich;1,0,9,Europe/Sofia'
+ * @returns { targetTimeZone: string, targetHourInTargetTZ: number, targetMinuteInTargetTZ: number, minutesDistance: number }[]
+ */
+export const extractParamsFromString = (str: string) => {
+  return str.split(';').map(part => {
+    const [h, m, d, targetTimeZone] = part.split(',');
+    return { targetHourInTargetTZ: parseInt(h), targetMinuteInTargetTZ: parseInt(m), minutesDistance: parseInt(d), targetTimeZone };
+  });
+}
+
+/**
  * Get the hour difference between a and b
  * @param b Date
  * @param a Date
