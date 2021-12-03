@@ -26,7 +26,7 @@ export const getHostTimeZone = () => Intl.DateTimeFormat().resolvedOptions().tim
  * @param tz2 target
  * @returns number
  */
-export const givenDateInSourceTZHowManyHoursToAddToGetDateInTargetTZ = (sourceTimeZone: string, targetTimeZone: string) => {
+export const hoursToAddToGoFromSourceToTargetTZ = (sourceTimeZone: string, targetTimeZone: string) => {
   const now = new Date();
   const dateInSourceTimeZone = correctDateToMatchTimeInTargetTimeZone(now, sourceTimeZone);
   const dateInTargetTimeZone = correctDateToMatchTimeInTargetTimeZone(now, targetTimeZone);
@@ -43,16 +43,8 @@ export const getHourDiff = (b: Date, a: Date) => {
   return Math.floor((a.getTime() - b.getTime()) / (1000 * 60 * 60));
 }
 
-export const extractHoursMinsFromDateString = (date: Date) => {
-  const dateSplitted = date.toISOString().split(':');
-  return {
-    getHours: () => parseInt(dateSplitted[0].slice(-2)),
-    getMinutes: () => parseInt(dateSplitted[1]),
-  };
-};
-
 export const timeIsMinutesAroundTargetGen: TimeIsMinutesAroundTargetGen = ({ logger }) => ({ hostTimeZone, hostTZDate, targetTimeZone, targetHourInTargetTZ, targetMinuteInTargetTZ, minutesDistance }: TimeIsMinutesAroundTargetProps) => {
-  const dateInTargetTZ = extractHoursMinsFromDateString(correctDateToMatchTimeInTargetTimeZone(hostTZDate, targetTimeZone));
+  const dateInTargetTZ = correctDateToMatchTimeInTargetTimeZone(hostTZDate, targetTimeZone);
   const hoursDistance = Math.floor(minutesDistance / 60);
   const minutesRestDistance = minutesDistance % 60;
   const diff = targetMinuteInTargetTZ - minutesRestDistance;
