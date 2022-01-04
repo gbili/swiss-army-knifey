@@ -17,8 +17,8 @@ const useDefinedAndDummyValueMissing = (processEnv: NodeJS.ProcessEnv) => (p: De
 const replaceOccurencesWithValues = (dict: DefinedDictElements) => (templateString: string, key: string) => {
   return templateString.replace(new RegExp(key, 'g'), dict[key])
 };
-export const hydrateTemplateFromEnvAs = (stringEnvVars: DefinedDictElements | null) => (templateFilepath: string, destinationFilepath: string) => {
-  if (stringEnvVars === null) {
+export const hydrateTemplateFromEnvAs = (stringEnvVars: DefinedDictElements) => (templateFilepath: string, destinationFilepath: string) => {
+  if (Object.keys(stringEnvVars).length <= 0) {
     return 'Did nothing';
   }
   const dockerComposeTemplateString = getFileContents(templateFilepath);
@@ -31,9 +31,9 @@ export const hydrateTemplateFromEnvAs = (stringEnvVars: DefinedDictElements | nu
   return `Wrote file ${destinationFilepath}`;
 };
 
-export const getPlaceholderToEnvValueDict = (placeholders: string[] | null) => (env: NodeJS.ProcessEnv) => null !== placeholders && placeholders.reduce(useDefinedAndDummyValueMissing(env), {}) || null;
+export const getPlaceholderToEnvValueDict = (placeholders: string[]) => (env: NodeJS.ProcessEnv) => placeholders.reduce(useDefinedAndDummyValueMissing(env), {});
 
-export const getPlaceholders = (contents: string): string[] | null => contents.match(/[A-Z0-9_]+_VALUE/g);
+export const getPlaceholders = (contents: string): string[] => contents.match(/[A-Z0-9_]+_VALUE/g) || [];
 
 export const getHydratablePlaceholders = compose(
   getPlaceholderToEnvValueDict,
