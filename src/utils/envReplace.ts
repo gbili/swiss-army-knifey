@@ -1,11 +1,11 @@
-import 'dotenv/config';
 import { compose } from 'ramda';
 import { getFileContents, putFileContents } from './fs';
 
 type DefinedDictElements = { [k: string]: string; };
 
 const useDefinedAndDummyValueMissing = (processEnv: NodeJS.ProcessEnv) => (p: DefinedDictElements, c: string): DefinedDictElements => {
-  const val = (processEnv[c] || `<!! -------  Missing '${c}' in .env file  ------- !!>`);
+  const keyWithout_VALUE = c.substring(0, c.length - '_VALUE'.length);
+  const val = processEnv[keyWithout_VALUE] || `<!! -------  Missing '${c}' in .env file  ------- !!>`;
   return (val.length > 0)
   ? {
     ...p,
@@ -14,7 +14,7 @@ const useDefinedAndDummyValueMissing = (processEnv: NodeJS.ProcessEnv) => (p: De
   : { ...p };
 };
 const replaceOccurencesWithValues = (dict: DefinedDictElements) => (templateString: string, key: string) => {
-  return templateString.replace(new RegExp(`${key}_VALUE`, 'g'), dict[key])
+  return templateString.replace(new RegExp(key, 'g'), dict[key])
 };
 export const hydrateTemplateFromEnvAs = (stringEnvVars: DefinedDictElements | null) => (templateFilepath: string, destinationFilepath: string) => {
   if (stringEnvVars === null) {
@@ -30,12 +30,11 @@ export const hydrateTemplateFromEnvAs = (stringEnvVars: DefinedDictElements | nu
   return `Wrote file ${destinationFilepath}`;
 };
 
-export const getPlaceholderToEnvValueDict = (placeholders: string[] | null) => null !== placeholders && placeholders.reduce(useDefinedAndDummyValueMissing(process.env), {}) || null;
+export const getPlaceholderToEnvValueDict = (placeholders: string[] | null) => (env: NodeJS.ProcessEnv) => null !== placeholders && placeholders.reduce(useDefinedAndDummyValueMissing(env), {}) || null;
 
 export const getPlaceholders = (contents: string): string[] | null => contents.match(/[A-Z0-9_]+_VALUE/g);
 
-export const getTemplateHydrator = compose(
-  hydrateTemplateFromEnvAs,
+export const getHydratablePlaceholders = compose(
   getPlaceholderToEnvValueDict,
   getPlaceholders,
   getFileContents
