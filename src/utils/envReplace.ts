@@ -2,10 +2,11 @@ import { compose } from 'ramda';
 import { getFileContents, putFileContents } from './fs';
 
 type DefinedDictElements = { [k: string]: string; };
+export const remove_VALUE = (c: string) => c.substring(0, c.length - '_VALUE'.length);
 
 const useDefinedAndDummyValueMissing = (processEnv: NodeJS.ProcessEnv) => (p: DefinedDictElements, c: string): DefinedDictElements => {
-  const keyWithout_VALUE = c.substring(0, c.length - '_VALUE'.length);
-  const val = processEnv[keyWithout_VALUE] || `<!! -------  Missing '${c}' in .env file  ------- !!>`;
+  const keyWithout_VALUE = remove_VALUE(c);
+  const val = processEnv[keyWithout_VALUE] || `<!! -------  Missing '${keyWithout_VALUE}' in .env file  ------- !!>`;
   return (val.length > 0)
   ? {
     ...p,
