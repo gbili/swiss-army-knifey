@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 import 'dotenv/config';
 import readline from 'readline';
-import { compose, join, map } from "ramda";
+import { compose, join, map, sort } from "ramda";
 import { getPlaceholders, remove_VALUE } from "../src/utils/envReplace";
 import { getFileContents, putFileContents } from '../src/utils/fs';
 import { getUserRootDirOrThrow, prependDir } from "../src/utils/path";
+import { arrayUnique } from '../src/utils/array';
 
 const [,, ...args] = process.argv
 
@@ -21,6 +22,8 @@ const [sourceTemplateFilepath, destFilepath] = args.map(getFilePath);
 
 const envFileContents = compose(
   join("=\n"),
+  sort((a: string, b: string) => a.localeCompare(b)),
+  arrayUnique,
   map(remove_VALUE),
   getPlaceholders,
   getFileContents
@@ -42,6 +45,5 @@ rl.question(`The file ${destFilepath} will be overwritten, are you sure you want
     console.log(`Wrote file ${destFilepath}`);
   }
   rl.close();
+  console.log(`Finished`);
 });
-
-console.log(`Finished`);

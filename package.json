@@ -1,6 +1,6 @@
 {
   "name": "swiss-army-knifey",
-  "version": "0.2.5",
+  "version": "0.3.1",
   "description": "node equivalent of browser str.prototype.padStart str.prototype.padEnd",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
@@ -10,7 +10,8 @@
     "serve": "tsc && NODE_ENV=production node ./build/index.js"
   },
   "bin": {
-    "env-replace": "./build/bin/envReplace.js"
+    "env-replace": "./build/bin/envReplace.js",
+    "env-prepare": "./build/bin/envPrepare.js"
   },
   "repository": {
     "type": "git",
