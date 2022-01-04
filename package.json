@@ -1,6 +1,6 @@
 {
   "name": "swiss-army-knifey",
-  "version": "0.1.6",
+  "version": "0.2.0",
   "description": "node equivalent of browser str.prototype.padStart str.prototype.padEnd",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
@@ -8,6 +8,9 @@
     "test": "tsc && NODE_ENV=test mocha --recursive ./build/test",
     "start": "tsc && node ./build/index.js",
     "serve": "tsc && NODE_ENV=production node ./build/index.js"
+  },
+  "bin": {
+    "env-replace": "./build/bin/envReplace.js"
   },
   "repository": {
     "type": "git",
@@ -25,12 +28,16 @@
     "@types/chai-as-promised": "^7.1.4",
     "@types/mocha": "7.0.1",
     "@types/node": "^13.7.1",
+    "@types/ramda": "^0.27.62",
     "chai": "4.2.0",
     "chai-as-promised": "^7.1.1",
     "dotenv": "^8.0.0",
-    "mocha": "6.1.4"
+    "mocha": "^6.2.3"
   },
   "directories": {
     "test": "test"
+  },
+  "dependencies": {
+    "ramda": "^0.27.1"
   }
 }
