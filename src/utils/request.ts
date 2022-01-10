@@ -41,3 +41,5 @@ export const get = async function (uri: string, options?: https.RequestOptions) 
     });
   });
 }
+
+export default get;
