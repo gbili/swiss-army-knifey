@@ -14,7 +14,7 @@ if (args.length !== 2) {
 
 // bin/build/swiss-army-knifey/node_modules/user-project-root
 const userProjectRootDir = getUserRootDirOrThrow();
-const getFilePath = prependDir(userProjectRootDir);
+const getFilePath = prependDir(`${userProjectRootDir}/`);
 const [sourceTemplateFilepath, destFilepath] = args.map(getFilePath);
 const getTemplateHydrator = compose(
   hydrateTemplateFromEnvAs,
