@@ -6,7 +6,7 @@ import { hoursAgo, oneHourAgo, secondsToYMWDHMS, secondsToYMWDHMSSentence } from
 import isError from './utils/isError';
 import { pathCouldBeNodeModuleRootDir, pathWithinCouldBeNodeModule, getCouldBeNodeModuleRootDir, isWithinNodeModuleOrClonedRepo, isWithinNodeModule, getNodeModuleRootDir } from './utils/moduleOrClonedRepo';
 import { pad, zeroPadded } from './utils/pad';
-import { getUserRootDirOrThrow } from './utils/path';
+import { getRootDir, getUserRootDirOrThrow } from './utils/path';
 import { createDir, createDirIfNotExists, existsDir } from './utils/promiseFs';
 import { get, download } from './utils/request';
 import sendSMS from './utils/sendSMS';
@@ -30,6 +30,7 @@ export {
   getKeyOrThrow,
   getNodeModuleRootDir,
   getUserRootDirOrThrow,
+  getRootDir,
   hasKeyOrThrow,
   hoursAgo,
   hoursToAddToGoFromSourceToTargetTZ,
