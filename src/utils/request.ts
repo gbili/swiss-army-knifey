@@ -4,9 +4,11 @@ import https from 'https';
 
 type Resolve<T> = T & { response: http.IncomingMessage; };
 
+export const getProperHttpModuleFromScheme = (uri: string) => uri.match(/^https:\/\//g) !== null ? https : http;
+
 export const download = async function (uri: string, dest: string, options?: https.RequestOptions) {
   return new Promise(function (resolve: (res: Resolve<{ file: string; }>) => void, reject: (err: Error) => void){
-    const { get } = uri.match(/^https:\/\//g) !== null ? https : http;
+    const { get } = getProperHttpModuleFromScheme(uri);
     const file = fs.createWriteStream(dest);
     get(uri, options || {}, (resp) => {
       resp.pipe(file)
@@ -25,7 +27,7 @@ export const download = async function (uri: string, dest: string, options?: htt
 
 export const get = async function (uri: string, options?: https.RequestOptions) {
   return new Promise(function (resolve: (res: Resolve<{ data: string; }>) => void, reject: (err: Error) => void){
-    const { get } = uri.match(/^https:\/\//g) !== null ? https : https;
+    const { get } = getProperHttpModuleFromScheme(uri);
     get(uri, options || {}, (resp) => {
       let data = '';
       // A chunk of data has been recieved.
