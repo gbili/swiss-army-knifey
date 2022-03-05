@@ -3,7 +3,7 @@ import 'dotenv/config';
 import readline from 'readline';
 import { compose, join, map, sort } from "ramda";
 import { getPlaceholders, remove_VALUE } from "../src/utils/envReplace";
-import { getFileContents, putFileContents } from '../src/utils/fs';
+import { getFileContentsSync, putFileContentsSync } from '../src/utils/fsSync';
 import { getUserRootDirOrThrow, prependDir } from "../src/utils/path";
 import { arrayUnique } from '../src/utils/array';
 
@@ -26,7 +26,7 @@ const envFileContents = compose(
   arrayUnique,
   map(remove_VALUE),
   getPlaceholders,
-  getFileContents
+  getFileContentsSync
 )(sourceTemplateFilepath);
 
 if (envFileContents.length <= 0) {
@@ -41,7 +41,7 @@ const rl = readline.createInterface({
 
 rl.question(`The file ${destFilepath} will be overwritten, are you sure you want to continue? [Y/n]`, (answer) => {
   if (answer !== 'n') {
-    putFileContents(destFilepath, envFileContents);
+    putFileContentsSync(destFilepath, envFileContents);
     console.log(`Wrote file ${destFilepath}`);
   }
   rl.close();
