@@ -1,5 +1,5 @@
 import { compose } from 'ramda';
-import { getFileContents, putFileContents } from './fs';
+import { getFileContentsSync, putFileContentsSync } from './fsSync';
 
 type DefinedDictElements = { [k: string]: string; };
 export const remove_VALUE = (c: string) => c.substring(0, c.length - '_VALUE'.length);
@@ -21,13 +21,13 @@ export const hydrateTemplateFromEnvAs = (stringEnvVars: DefinedDictElements) => 
   if (Object.keys(stringEnvVars).length <= 0) {
     return 'Did nothing';
   }
-  const dockerComposeTemplateString = getFileContents(templateFilepath);
+  const dockerComposeTemplateString = getFileContentsSync(templateFilepath);
   const replacedTemplate = Object.keys(stringEnvVars)
     .reduce(
       replaceOccurencesWithValues(stringEnvVars),
       dockerComposeTemplateString
     );
-  putFileContents(destinationFilepath, replacedTemplate);
+  putFileContentsSync(destinationFilepath, replacedTemplate);
   return `Wrote file ${destinationFilepath}`;
 };
 
@@ -38,5 +38,5 @@ export const getPlaceholders = (contents: string): string[] => contents.match(/[
 export const getHydratablePlaceholders = compose(
   getPlaceholderToEnvValueDict,
   getPlaceholders,
-  getFileContents
+  getFileContentsSync
 );

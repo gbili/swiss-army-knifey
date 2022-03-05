@@ -34,6 +34,24 @@ export const createDirIfNotExists = async function (absPath: string) {
   }
 };
 
+export const getFileContents = async function (absPath: string, charset: string = 'utf8'): Promise<string> {
+  return await (new Promise(function(resolve, reject) {
+    fs.readFile(absPath, charset, function(err, data) {
+      if (err) { return reject(err); }
+      return resolve(data);
+    });
+  }));
+};
+
+export const putFileContents = async function (filePath: string, contents: string, options: fs.WriteFileOptions = { mode: 0o664 }): Promise<boolean> {
+  return await (new Promise(function(resolve, reject) {
+    fs.writeFile(filePath, contents, options, function(err) {
+      if (err) { return reject(err); }
+      return resolve(true);
+    });
+  }));
+};
+
 export const promiseFs = {
   createDir,
   existsDir,
