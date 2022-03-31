@@ -1,4 +1,5 @@
 import { correctDateToMatchTimeInTargetTimeZone, extractParamsFromString, getHostTimeZone, getHourDiff, hoursToAddToGoFromSourceToTargetTZ, timeIsMinutesAroundTargetGen } from './utils/aroundTargetTime';
+import createStarEvents from './utils/starEvents';
 import { arrayOf, arrayUnique } from './utils/array';
 import { extractIPAddress } from './utils/extractIPAddress';
 import getKeyOrThrow, { hasKeyOrThrow } from './utils/envHasKey';
@@ -22,6 +23,7 @@ export {
   correctDateToMatchTimeInTargetTimeZone,
   createDir,
   createDirIfNotExists,
+  createStarEvents,
   download,
   existsDir,
   extractIPAddress,
