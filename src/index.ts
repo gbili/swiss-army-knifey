@@ -1,5 +1,6 @@
 import { correctDateToMatchTimeInTargetTimeZone, extractParamsFromString, getHostTimeZone, getHourDiff, hoursToAddToGoFromSourceToTargetTZ, timeIsMinutesAroundTargetGen } from './utils/aroundTargetTime';
 import { arrayOf, arrayUnique } from './utils/array';
+import { extractIPAddress } from './utils/extractIPAddress';
 import getKeyOrThrow, { hasKeyOrThrow } from './utils/envHasKey';
 import { getFileContentsSync, putFileContentsSync } from './utils/fsSync';
 import { hoursAgo, oneHourAgo, secondsToYMWDHMS, secondsToYMWDHMSSentence } from './utils/getStringDate';
@@ -8,8 +9,10 @@ import { pathCouldBeNodeModuleRootDir, pathWithinCouldBeNodeModule, getCouldBeNo
 import { pad, zeroPadded } from './utils/pad';
 import { getRootDir, getUserRootDirOrThrow } from './utils/path';
 import { createDir, createDirIfNotExists, existsDir, getFileContents, putFileContents } from './utils/promiseFs';
+import plugIPAddressIntoContext from './utils/plugIPAddressIntoContext';
 import { get, download } from './utils/request';
 import sendSMS from './utils/sendSMS';
+import starEvents from './utils/starEvents';
 import sleep from './utils/sleep';
 
 
@@ -21,6 +24,7 @@ export {
   createDirIfNotExists,
   download,
   existsDir,
+  extractIPAddress,
   extractParamsFromString,
   get,
   getCouldBeNodeModuleRootDir,
@@ -42,12 +46,14 @@ export {
   pad,
   pathCouldBeNodeModuleRootDir,
   pathWithinCouldBeNodeModule,
+  plugIPAddressIntoContext,
   putFileContents,
   putFileContentsSync,
   secondsToYMWDHMS,
   secondsToYMWDHMSSentence,
   sleep,
   sendSMS,
+  starEvents,
   timeIsMinutesAroundTargetGen,
   zeroPadded,
 };
