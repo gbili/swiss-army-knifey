@@ -49,10 +49,10 @@ export const couldDownload = async function (uri: string, options?: https.Reques
   });
 }
 
-export const get = async function (uri: string, options?: https.RequestOptions) {
+export const request = async function (uri: string, options?: https.RequestOptions) {
   return new Promise(function (resolve: (res: Resolve<{ data: string; }>) => void, reject: (err: Error) => void){
-    const { get } = getProperHttpModuleFromScheme(uri);
-    get(uri, options || {}, (resp) => {
+    const { request } = getProperHttpModuleFromScheme(uri);
+    request(uri, options || {}, (resp) => {
       let data = '';
       // A chunk of data has been recieved.
       resp.on('data', (chunk) => {
@@ -68,4 +68,6 @@ export const get = async function (uri: string, options?: https.RequestOptions) 
   });
 }
 
-export default get;
+export const get = request;
+
+export default request;
