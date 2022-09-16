@@ -11,7 +11,7 @@ import { pad, zeroPadded } from './utils/pad';
 import { getRootDir, getUserRootDirOrThrow } from './utils/path';
 import { createDir, createDirIfNotExists, existsDir, getFileContents, putFileContents } from './utils/promiseFs';
 import plugIPAddressIntoContext from './utils/plugIPAddressIntoContext';
-import { get, download } from './utils/request';
+import { get, download, request } from './utils/request';
 import sendSMS from './utils/sendSMS';
 import starEvents from './utils/starEvents';
 import sleep from './utils/sleep';
@@ -51,6 +51,7 @@ export {
   plugIPAddressIntoContext,
   putFileContents,
   putFileContentsSync,
+  request,
   secondsToYMWDHMS,
   secondsToYMWDHMSSentence,
   sleep,
