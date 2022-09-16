@@ -49,38 +49,6 @@ export const couldDownload = async function (uri: string, options?: https.Reques
   });
 }
 
-export const request = async function (uri: string, options?: ((https.RequestOptions & { data?: undefined; }) | (https.RequestOptions & { method: 'POST'; data: string; })) & { statusCodeHandler?: (statusCode?: number) => void; }) {
-  return new Promise(function (resolve: (res: Resolve<{ data: string; }>) => void, reject: (err: Error) => void){
-    const { request } = getProperHttpModuleFromScheme(new URL(uri));
-    const req = request(uri, options || {}, (resp) => {
-      if (options && options.statusCodeHandler) {
-        options.statusCodeHandler(resp.statusCode);
-      }
-      let data = '';
-      // A chunk of data has been recieved.
-      resp.on('data', (chunk) => {
-        data += chunk;
-      });
-      // The whole response has been received. Print out the result.
-      resp.on('end', () => {
-        if (!resp.complete) {
-          reject(new Error('The connection was terminated while the message was still being sent'));
-          return;
-        }
-        resolve({ data, response: resp });
-      });
-    })
-    req.on("error", (err) => {
-      reject(err);
-    });
-    if (options && options.method === 'POST') {
-      req.write(options.data);
-    }
-    req.end();
-  });
-
-}
-
 export const urlToOptions = (url: URL, options: SAKRequestOptions) => {
   return {
     hostname: url.host,
@@ -92,7 +60,7 @@ export const urlToOptions = (url: URL, options: SAKRequestOptions) => {
 
 export type SAKRequestOptions = ((https.RequestOptions & { data?: undefined; }) | (https.RequestOptions & { method: 'POST'; data: string; })) & { statusCodeHandler?: (statusCode?: number) => void; };
 
-export const standardRequest = async function (uri: string, options?: SAKRequestOptions) {
+export const request = async function (uri: string, options?: SAKRequestOptions) {
   return new Promise(function (resolve: (res: Resolve<{ data: string; }>) => void, reject: (err: Error) => void){
     const url = new URL(uri);
     const { request } = getProperHttpModuleFromScheme(url);
