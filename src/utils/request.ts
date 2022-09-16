@@ -52,7 +52,7 @@ export const couldDownload = async function (uri: string, options?: https.Reques
 export const urlToOptions = (url: URL, options: SAKRequestOptions) => {
   return {
     hostname: url.host,
-    port: url.protocol === 'https' ? 443 : 80,
+    port: url.protocol === 'https:' ? 443 : 80,
     path: url.pathname,
     ...options,
   };
