@@ -13,7 +13,7 @@ export const hasKeyOrThrow = <X extends {}, Y extends PropertyKey>(env: X, key: 
 
 export const getKeyOrThrow = <X extends {}, Y extends PropertyKey>(env: X, key: Y, message?: string): string => {
   if (!hasKey(env, key) || env[key].length <= 0) {
-    throw new Error(message ? `Missing .env key ${key}. ${message}` : `Cannot operate without ${key}, add it to .env file`);
+    throw new Error(message ? `Missing .env key ${String(key)}. ${message}` : `Cannot operate without ${String(key)}, add it to .env file`);
   }
   return env[key];
 }
