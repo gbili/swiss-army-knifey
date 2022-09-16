@@ -49,10 +49,13 @@ export const couldDownload = async function (uri: string, options?: https.Reques
   });
 }
 
-export const request = async function (uri: string, options?: https.RequestOptions) {
+export const request = async function (uri: string, options?: ((https.RequestOptions & { data?: undefined; }) | (https.RequestOptions & { method: 'POST'; data: string; })) & { statusCodeHandler?: (statusCode?: number) => void; }) {
   return new Promise(function (resolve: (res: Resolve<{ data: string; }>) => void, reject: (err: Error) => void){
     const { request } = getProperHttpModuleFromScheme(uri);
-    request(uri, options || {}, (resp) => {
+    const req = request(uri, options || {}, (resp) => {
+      if (options && options.statusCodeHandler) {
+        options.statusCodeHandler(resp.statusCode);
+      };
       let data = '';
       // A chunk of data has been recieved.
       resp.on('data', (chunk) => {
@@ -60,11 +63,20 @@ export const request = async function (uri: string, options?: https.RequestOptio
       });
       // The whole response has been received. Print out the result.
       resp.on('end', () => {
+        if (!resp.complete) {
+          reject(new Error('The connection was terminated while the message was still being sent'));
+          return;
+        }
         resolve({ data, response: resp });
       });
-    }).on("error", (err) => {
+    })
+    req.on("error", (err) => {
       reject(err);
     });
+    if (options && options.method === 'POST') {
+      req.write(options.data);
+    }
+    req.end();
   });
 }
 
