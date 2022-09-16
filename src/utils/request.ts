@@ -4,7 +4,7 @@ import https from 'https';
 
 type Resolve<T> = T & { response: http.IncomingMessage; };
 
-export const getProperHttpModuleFromScheme = (url: URL) => url.protocol === 'https' ? https : http;
+export const getProperHttpModuleFromScheme = (url: URL) => url.protocol === 'https:' ? https : http;
 
 export const download = async function (uri: string, dest: string, options?: https.RequestOptions) {
   return new Promise(function (resolve: (res: Resolve<{ file: string; }>) => void, reject: (err: Error) => void){
