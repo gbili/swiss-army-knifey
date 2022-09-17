@@ -89,7 +89,7 @@ export const request = async function (uri: string, options?: SAKRequestOptions)
       reject(err);
     });
     if (options && options.method === 'POST') {
-      req.write(options.data);
+      req.write(options.data || '');
     }
     req.end();
   });
