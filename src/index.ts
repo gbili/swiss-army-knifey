@@ -1,6 +1,6 @@
 import { correctDateToMatchTimeInTargetTimeZone, extractParamsFromString, getHostTimeZone, getHourDiff, hoursToAddToGoFromSourceToTargetTZ, timeIsMinutesAroundTargetGen } from './utils/aroundTargetTime';
 import createStarEvents from './utils/starEvents';
-import { arrayOf, arrayUnique } from './utils/array';
+import { arrayOf, arrayUnique, mapSeries, forEachSeries } from './utils/array';
 import { extractIPAddress } from './utils/extractIPAddress';
 import getKeyOrThrow, { hasKeyOrThrow } from './utils/envHasKey';
 import { getFileContentsSync, putFileContentsSync } from './utils/fsSync';
@@ -28,6 +28,7 @@ export {
   existsDir,
   extractIPAddress,
   extractParamsFromString,
+  forEachSeries,
   get,
   getCouldBeNodeModuleRootDir,
   getFileContents,
@@ -44,6 +45,7 @@ export {
   isError,
   isWithinNodeModuleOrClonedRepo,
   isWithinNodeModule,
+  mapSeries,
   oneHourAgo,
   pad,
   pathCouldBeNodeModuleRootDir,
