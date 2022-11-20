@@ -9,8 +9,10 @@ export const forEachSeries = async <A, C extends (item: A, index: number|string,
   }
 }
 
-export const mapSeries = async <A, C extends (item: A, index: number|string, array: A[]) => any>(arr: A[], callback: C): Promise<ReturnType<C>[]> => {
-  let mapped: ReturnType<C>[] = [];
+export type UnpackPromise<T> = T extends Promise<infer Z> ? Z : T;
+
+export const mapSeries = async <A, C extends (item: A, index: number|string, array: A[]) => any>(arr: A[], callback: C): Promise<UnpackPromise<ReturnType<C>>[]> => {
+  let mapped: UnpackPromise<ReturnType<C>>[] = [];
   for (const k in arr) {
     mapped.push(await callback(arr[k], k, arr))
   }
