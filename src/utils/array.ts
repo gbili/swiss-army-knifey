@@ -18,3 +18,11 @@ export const mapSeries = async <A, C extends (item: A, index: number|string, arr
   }
   return mapped;
 }
+
+export const unmerge = function <E, C extends (item: E, index: number|string, array: E[]) => boolean>(a: E[], callback: C) {
+  return a.reduce((p: [E[], E[]], c, i): [E[], E[]] => {
+    return callback(c, i, a)
+      ? [[...p[0], c], [...p[1]]]
+      : [[...p[0]], [...p[1], c]]
+  }, [[], []]);
+}

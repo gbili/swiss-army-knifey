@@ -1,6 +1,6 @@
 import { correctDateToMatchTimeInTargetTimeZone, extractParamsFromString, getHostTimeZone, getHourDiff, hoursToAddToGoFromSourceToTargetTZ, timeIsMinutesAroundTargetGen } from './utils/aroundTargetTime';
 import createStarEvents from './utils/starEvents';
-import { arrayOf, arrayUnique, mapSeries, forEachSeries } from './utils/array';
+import { arrayOf, arrayUnique, mapSeries, forEachSeries, unmerge } from './utils/array';
 import { extractIPAddress } from './utils/extractIPAddress';
 import getKeyOrThrow, { hasKeyOrThrow } from './utils/envHasKey';
 import { getFileContentsSync, putFileContentsSync } from './utils/fsSync';
@@ -60,6 +60,7 @@ export {
   sendSMS,
   starEvents,
   timeIsMinutesAroundTargetGen,
+  unmerge,
   zeroPadded,
 };
 export default pad;
