@@ -2,7 +2,7 @@ import { correctDateToMatchTimeInTargetTimeZone, extractParamsFromString, getHos
 import createStarEvents from './utils/starEvents';
 import { arrayOf, arrayUnique, mapSeries, forEachSeries, unmerge } from './utils/array';
 import { extractIPAddress } from './utils/extractIPAddress';
-import getKeyOrThrow, { hasKeyOrThrow } from './utils/envHasKey';
+import getKeyOrThrow, { hasKey, hasKeyOrThrow, hasOwnProperty } from './utils/envHasKey';
 import { getFileContentsSync, putFileContentsSync } from './utils/fsSync';
 import { hoursAgo, oneHourAgo, secondsToYMWDHMS, secondsToYMWDHMSSentence } from './utils/getStringDate';
 import isError from './utils/isError';
@@ -39,7 +39,9 @@ export {
   getNodeModuleRootDir,
   getUserRootDirOrThrow,
   getRootDir,
+  hasKey,
   hasKeyOrThrow,
+  hasOwnProperty,
   hoursAgo,
   hoursToAddToGoFromSourceToTargetTZ,
   isError,

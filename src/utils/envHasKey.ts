@@ -1,8 +1,8 @@
-function hasOwnProperty<X extends {}, Y extends PropertyKey>(obj: X, prop: Y): obj is X & Record<Y, unknown> {
+export function hasOwnProperty<X extends {}, Y extends PropertyKey>(obj: X, prop: Y): obj is X & Record<Y, unknown> {
   return typeof obj === 'object' && obj.hasOwnProperty(prop);
 }
 
-function hasKey<X extends {}, Y extends PropertyKey>(env: X, key: Y): env is X & Record<Y, string> {
+export function hasKey<X extends {}, Y extends PropertyKey>(env: X, key: Y): env is X & Record<Y, string> {
   return hasOwnProperty(env, key) && typeof env[key] === 'string';
 }
 
