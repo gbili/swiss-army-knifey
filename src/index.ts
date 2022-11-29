@@ -15,6 +15,7 @@ import { get, download, request } from './utils/request';
 import sendSMS from './utils/sendSMS';
 import starEvents from './utils/starEvents';
 import sleep from './utils/sleep';
+import { stringify, serializeAsURIComponents, excludeKeyWithValuesOfType} from './utils/uncategorized';
 
 
 export {
@@ -25,6 +26,7 @@ export {
   createDirIfNotExists,
   createStarEvents,
   download,
+  excludeKeyWithValuesOfType,
   existsDir,
   extractIPAddress,
   extractParamsFromString,
@@ -60,7 +62,9 @@ export {
   secondsToYMWDHMSSentence,
   sleep,
   sendSMS,
+  serializeAsURIComponents,
   starEvents,
+  stringify,
   timeIsMinutesAroundTargetGen,
   unmerge,
   zeroPadded,
