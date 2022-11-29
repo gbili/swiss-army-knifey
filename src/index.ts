@@ -11,7 +11,7 @@ import { pad, zeroPadded } from './utils/pad';
 import { getRootDir, getUserRootDirOrThrow } from './utils/path';
 import { createDir, createDirIfNotExists, existsDir, getFileContents, putFileContents } from './utils/promiseFs';
 import plugIPAddressIntoContext from './utils/plugIPAddressIntoContext';
-import { get, download, request } from './utils/request';
+import { get, download, request, createHeadersWithPHPSESSID, createHeadersOptionWithCookie, getPHPSESSIDWithoutPathOrEmpty } from './utils/request';
 import sendSMS from './utils/sendSMS';
 import starEvents from './utils/starEvents';
 import sleep from './utils/sleep';
@@ -25,6 +25,8 @@ export {
   createDir,
   createDirIfNotExists,
   createStarEvents,
+  createHeadersOptionWithCookie,
+  createHeadersWithPHPSESSID,
   download,
   excludeKeyWithValuesOfType,
   existsDir,
@@ -39,6 +41,7 @@ export {
   getHourDiff,
   getKeyOrThrow,
   getNodeModuleRootDir,
+  getPHPSESSIDWithoutPathOrEmpty,
   getUserRootDirOrThrow,
   getRootDir,
   hasKey,

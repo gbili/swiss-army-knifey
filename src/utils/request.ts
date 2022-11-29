@@ -1,6 +1,7 @@
 import fs from 'fs';
 import http from 'http';
 import https from 'https';
+import { compose } from 'ramda';
 
 type Resolve<T> = T & { response: http.IncomingMessage; };
 
@@ -96,5 +97,15 @@ export const request = async function (uri: string, options?: SAKRequestOptions)
 }
 
 export const get = request;
+
+export const getPHPSESSIDWithoutPathOrEmpty = <Z, T extends Resolve<Z>>(res: T extends Resolve<infer O> ? Resolve<O> : never): string[] => res.response.headers['set-cookie'] ? res.response.headers['set-cookie'].filter(v => v.substring(0, 'PHPSESSID'.length) === 'PHPSESSID').map(v => v.split(';')[0]) : [];
+
+export const createHeadersOptionWithCookie = (cookiesString: string | undefined) => {
+  return {
+    headers : cookiesString ? { Cookie: cookiesString } : {},
+  };
+};
+
+export const createHeadersWithPHPSESSID = compose(createHeadersOptionWithCookie, (a: string[]) => a[0], getPHPSESSIDWithoutPathOrEmpty);
 
 export default request;
