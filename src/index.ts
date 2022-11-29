@@ -15,7 +15,7 @@ import { get, download, request } from './utils/request';
 import sendSMS from './utils/sendSMS';
 import starEvents from './utils/starEvents';
 import sleep from './utils/sleep';
-import { stringify, serializeAsURIComponents, excludeKeyWithValuesOfType} from './utils/uncategorized';
+import { excludeKeyWithValuesOfType, toString } from './utils/uncategorized';
 
 
 export {
@@ -62,10 +62,9 @@ export {
   secondsToYMWDHMSSentence,
   sleep,
   sendSMS,
-  serializeAsURIComponents,
   starEvents,
-  stringify,
   timeIsMinutesAroundTargetGen,
+  toString,
   unmerge,
   zeroPadded,
 };
