@@ -106,6 +106,7 @@ export const createHeadersOptionWithCookie = (cookiesString: string | undefined)
   };
 };
 
-export const createHeadersWithPHPSESSID = compose(createHeadersOptionWithCookie, (a: string[]) => a[0], getPHPSESSIDWithoutPathOrEmpty);
+const firstElementOrUndefined = (a: string[]): string | undefined => a[0];
+export const createHeadersWithPHPSESSID = compose(createHeadersOptionWithCookie, firstElementOrUndefined, getPHPSESSIDWithoutPathOrEmpty);
 
 export default request;
