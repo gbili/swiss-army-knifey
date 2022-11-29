@@ -49,7 +49,7 @@ export const couldDownload = async function (uri: string, options?: https.Reques
   });
 }
 
-const getPathWithQueryString = (url: URL) => url.pathname + url.href.split(url.pathname)[1];
+const getPathWithQueryString = (url: URL) => url.pathname + url.search;
 
 export const urlToOptions = (url: URL, options: SAKRequestOptions) => {
   return {
