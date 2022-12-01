@@ -16,9 +16,9 @@ export default async function sleep(n: number, unit?: TimeUnit): Promise<void> {
 
 export const sleepForCallback = (unit: TimeUnit) => {
   const msConverter = toMilliseconds(unit);
-  return async (n: number, betweenSecondsCallback: (s: number) => void = () => {}) => {
+  return async (n: number, betweenSleepsCallback: (s: number) => void = () => {}) => {
     for (const i of getArrayFromZeroTo(n)) {
-      betweenSecondsCallback(i);
+      betweenSleepsCallback(i);
       await sleep(msConverter);
     }
   }
@@ -28,8 +28,8 @@ export function logSleptForSeconds(s: number) {
   console.log(`Slept for ${s} seconds`);
 }
 
-export async function sleepSecondsCallback(seconds: number, betweenSecondsCallback: (s: number) => void = () => {}) {
-  await (sleepForCallback(TimeUnit.seconds)(seconds, betweenSecondsCallback));
+export async function sleepSecondsCallback(seconds: number, betweenSleepsCallback: (s: number) => void = () => {}) {
+  await (sleepForCallback(TimeUnit.seconds)(seconds, betweenSleepsCallback));
 }
 
 export async function loggedSleep(seconds: number) {
