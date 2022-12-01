@@ -1,6 +1,6 @@
-import { correctDateToMatchTimeInTargetTimeZone, extractParamsFromString, getHostTimeZone, getHourDiff, hoursToAddToGoFromSourceToTargetTZ, timeIsMinutesAroundTargetGen } from './utils/aroundTargetTime';
+import { correctDateToMatchTimeInTargetTimeZone, daysBefore, extractParamsFromString, getDateByYmd, getHostTimeZone, getHourDiff, hoursToAddToGoFromSourceToTargetTZ, loopUntilToday, oneDayBefore, timeIsMinutesAroundTargetGen } from './utils/aroundTargetTime';
 import createStarEvents from './utils/starEvents';
-import { arrayOf, arrayUnique, mapSeries, forEachSeries, unmerge } from './utils/array';
+import { getArrayFromZeroTo, getArrayRange, arrayOf, arrayUnique, mapSeries, forEachSeries, unmerge } from './utils/array';
 import { extractIPAddress } from './utils/extractIPAddress';
 import getKeyOrThrow, { hasKey, hasKeyOrThrow, hasOwnProperty } from './utils/envHasKey';
 import { getFileContentsSync, putFileContentsSync } from './utils/fsSync';
@@ -14,7 +14,7 @@ import plugIPAddressIntoContext from './utils/plugIPAddressIntoContext';
 import { get, download, request, createHeadersWithPHPSESSID, createHeadersOptionWithCookie, getPHPSESSIDWithoutPathOrEmpty } from './utils/request';
 import sendSMS from './utils/sendSMS';
 import starEvents from './utils/starEvents';
-import sleep from './utils/sleep';
+import sleep, { loggedSleep, logSleptForSeconds, sleepSecondsCallback, sleepyLoopUntilToday } from './utils/sleep';
 import { excludeKeyWithValuesOfType, toString } from './utils/uncategorized';
 
 
@@ -27,6 +27,7 @@ export {
   createStarEvents,
   createHeadersOptionWithCookie,
   createHeadersWithPHPSESSID,
+  daysBefore,
   download,
   excludeKeyWithValuesOfType,
   existsDir,
@@ -34,7 +35,10 @@ export {
   extractParamsFromString,
   forEachSeries,
   get,
+  getArrayFromZeroTo,
+  getArrayRange,
   getCouldBeNodeModuleRootDir,
+  getDateByYmd,
   getFileContents,
   getFileContentsSync,
   getHostTimeZone,
@@ -52,8 +56,12 @@ export {
   isError,
   isWithinNodeModuleOrClonedRepo,
   isWithinNodeModule,
+  loggedSleep,
+  logSleptForSeconds,
+  loopUntilToday,
   mapSeries,
   oneHourAgo,
+  oneDayBefore,
   pad,
   pathCouldBeNodeModuleRootDir,
   pathWithinCouldBeNodeModule,
@@ -64,6 +72,8 @@ export {
   secondsToYMWDHMS,
   secondsToYMWDHMSSentence,
   sleep,
+  sleepSecondsCallback,
+  sleepyLoopUntilToday,
   sendSMS,
   starEvents,
   timeIsMinutesAroundTargetGen,
