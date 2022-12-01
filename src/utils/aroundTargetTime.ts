@@ -1,5 +1,5 @@
 import { NeedsLogger, CurryFuncWithDepsGen } from "../commonTypes";
-import { getArrayFromZeroTo } from "./array";
+import { getArrayFromZeroOfLengthN } from "./array";
 
 type TimeIsMinutesAroundTargetProps = {}
   & { hostTZDate: Date; }
@@ -78,6 +78,7 @@ export const timeIsMinutesAroundTargetGen: TimeIsMinutesAroundTargetGen = ({ log
 }
 
 export enum TimeUnit {
+  milliseconds='milliseconds',
   seconds='seconds',
   minutes='minutes',
   hours='hours',
@@ -85,6 +86,7 @@ export enum TimeUnit {
 }
 
 export const unitToLowerFactor: { [k in TimeUnit]: number; } = {
+  milliseconds: 1,
   seconds: 1000,
   minutes: 60,
   hours: 60,
@@ -110,8 +112,9 @@ export function toMilliseconds(unit: TimeUnit) {
 export function oneDayBefore(date: Date) {
   return new Date((new Date(date.getTime())).setDate(date.getDate() - 1))
 }
+
 export function daysBefore(n: number, date: Date) {
-  return getArrayFromZeroTo(n).reduce(oneDayBefore, date);
+  return getArrayFromZeroOfLengthN(n).reduce(oneDayBefore, date);
 }
 
 export type ZeroMonth = 0|1|2|3|4|5|6|7|8|9|10|11

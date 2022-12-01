@@ -27,10 +27,11 @@ export const unmerge = function <E, C extends (item: E, index: number|string, ar
   }, [[], []]);
 }
 
-export function getArrayFromZeroTo(n: number) {
+export function getArrayFromZeroOfLengthN(n: number) {
   return Array.from(Array(n).keys());
 }
 
 export function getArrayRange(start: number, end: number) {
-  return getArrayFromZeroTo(end - start).map(num => num + start);
+  const endPlus1 = end + 1;
+  return getArrayFromZeroOfLengthN(endPlus1 - start).map(num => num + start);
 }

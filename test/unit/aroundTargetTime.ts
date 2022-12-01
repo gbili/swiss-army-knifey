@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { correctDateToMatchTimeInTargetTimeZone, extractParamsFromString, getHostTimeZone, getHourDiff, hoursToAddToGoFromSourceToTargetTZ, timeIsMinutesAroundTargetGen } from '../../src/utils/aroundTargetTime';
+import { correctDateToMatchTimeInTargetTimeZone, daysBefore, extractParamsFromString, getHostTimeZone, getHourDiff, hoursToAddToGoFromSourceToTargetTZ, timeIsMinutesAroundTargetGen, TimeUnit, toMilliseconds } from '../../src/utils/aroundTargetTime';
 import { zeroPadded } from '../../src/utils/pad';
 
 const logger = {
@@ -326,6 +326,28 @@ describe('time', function () {
       const res = extractParamsFromString('2,47,10,Europe/Zurich;1,0,9,Europe/Sofia')
       const [res1,] = res;
       expect(res1.targetTimeZone).to.equal('Europe/Zurich');
+    });
+  });
+  describe(`toMilliseconds`, function() {
+    it('should output milliseconds in one millisecond', async function() {
+      expect(toMilliseconds(TimeUnit.milliseconds)).to.equal(1);
+    });
+    it('should output milliseconds in one second', async function() {
+      expect(toMilliseconds(TimeUnit.seconds)).to.equal(1000);
+    });
+    it('should output milliseconds in one minute', async function() {
+      expect(toMilliseconds(TimeUnit.minutes)).to.equal(1000*60);
+    });
+    it('should output milliseconds in one hour ', async function() {
+      expect(toMilliseconds(TimeUnit.hours)).to.equal(1000*60*60);
+    });
+  });
+
+  describe(`daysBefore`, function() {
+    it('should be able to remove 5 days from a date', async function() {
+      const someDay = new Date('2022-12-01T12:21:23.646Z');
+      const someDayMinus5 = new Date('2022-11-26T12:21:23.646Z');
+      expect(daysBefore(5, someDay).toISOString()).to.equal(someDayMinus5.toISOString());
     });
   });
 });

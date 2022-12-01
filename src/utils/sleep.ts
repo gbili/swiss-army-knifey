@@ -1,5 +1,5 @@
 import { loopUntilToday, TimeUnit, toMilliseconds } from "./aroundTargetTime";
-import { getArrayFromZeroTo } from "./array";
+import { getArrayFromZeroOfLengthN } from "./array";
 
 /**
  * Sleep for x units (units is milliseconds by default)
@@ -16,9 +16,9 @@ export default async function sleep(n: number, unit?: TimeUnit): Promise<void> {
 
 export const sleepForCallback = (unit: TimeUnit) => {
   const msConverter = toMilliseconds(unit);
-  return async (n: number, betweenSleepsCallback: (s: number) => void = () => {}) => {
-    for (const i of getArrayFromZeroTo(n)) {
-      betweenSleepsCallback(i);
+  return async (n: number, betweenSleepsCallback: (current: number, total: number, unit: TimeUnit) => void = () => {}) => {
+    for (const i of getArrayFromZeroOfLengthN(n)) {
+      betweenSleepsCallback(i, n, unit);
       await sleep(msConverter);
     }
   }
@@ -28,9 +28,11 @@ export function logSleptForSeconds(s: number) {
   console.log(`Slept for ${s} seconds`);
 }
 
-export async function sleepSecondsCallback(seconds: number, betweenSleepsCallback: (s: number) => void = () => {}) {
-  await (sleepForCallback(TimeUnit.seconds)(seconds, betweenSleepsCallback));
-}
+export const sleepMillisecondsCallback = sleepForCallback(TimeUnit.hours);
+export const sleepSecondsCallback = sleepForCallback(TimeUnit.seconds);
+export const sleepMinutesCallback = sleepForCallback(TimeUnit.minutes);
+export const sleepHoursCallback = sleepForCallback(TimeUnit.hours);
+export const sleepDaysCallback = sleepForCallback(TimeUnit.days);
 
 export async function loggedSleep(seconds: number) {
   return await sleepSecondsCallback(seconds, logSleptForSeconds);
