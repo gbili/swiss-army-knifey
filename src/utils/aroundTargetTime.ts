@@ -77,6 +77,36 @@ export const timeIsMinutesAroundTargetGen: TimeIsMinutesAroundTargetGen = ({ log
   return timeIsHigherThanTargetLB && timeIsLowerThanTargetUB;
 }
 
+export enum TimeUnit {
+  seconds='seconds',
+  minutes='minutes',
+  hours='hours',
+  days='days',
+}
+
+export const unitToLowerFactor: { [k in TimeUnit]: number; } = {
+  seconds: 1000,
+  minutes: 60,
+  hours: 60,
+  days: 24,
+}
+
+export function toMilliseconds(unit: TimeUnit) {
+  type Reduction = { units: TimeUnit[]; finished: boolean; };
+  const keys = Object.keys(unitToLowerFactor) as TimeUnit[];
+  const { units } = keys.reduce((p: Reduction, k): Reduction => {
+    if (p.finished) return p;
+    return {
+      units: [...p.units, k],
+      finished: k === unit,
+    };
+  }, { units: [], finished: false });
+
+  return units.reduce((p, k) => {
+    return p * unitToLowerFactor[k];
+  }, 1);
+}
+
 export function oneDayBefore(date: Date) {
   return new Date((new Date(date.getTime())).setDate(date.getDate() - 1))
 }
