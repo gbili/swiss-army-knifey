@@ -26,3 +26,11 @@ export const unmerge = function <E, C extends (item: E, index: number|string, ar
       : [[...p[0]], [...p[1], c]]
   }, [[], []]);
 }
+
+export function getArrayFromZeroTo(n: number) {
+  return Array.from(Array(n).keys());
+}
+
+export function getArrayRange(start: number, end: number) {
+  return getArrayFromZeroTo(end - start).map(num => num + start);
+}

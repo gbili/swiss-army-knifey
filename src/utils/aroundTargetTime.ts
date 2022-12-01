@@ -1,4 +1,5 @@
 import { NeedsLogger, CurryFuncWithDepsGen } from "../commonTypes";
+import { getArrayFromZeroTo } from "./array";
 
 type TimeIsMinutesAroundTargetProps = {}
   & { hostTZDate: Date; }
@@ -74,4 +75,25 @@ export const timeIsMinutesAroundTargetGen: TimeIsMinutesAroundTargetGen = ({ log
   logger.debug(`------------------${dateInTargetTZ.getHours()}:${dateInTargetTZ.getMinutes()} || ----------------UB-${dateInTargetTZ.getHours()}:${dateInTargetTZ.getMinutes()}`, timeIsHigherThanTargetLB, timeIsLowerThanTargetUB);
   logger.debug(`rawHoursLB-${rawHoursLB}, LB-${hoursLB}:${minutesLB} || rawHoursUB-${rawHoursUB},  UB-${hoursUB}:${minutesUB}`, timeIsHigherThanTargetLB, timeIsLowerThanTargetUB);
   return timeIsHigherThanTargetLB && timeIsLowerThanTargetUB;
+}
+
+export function oneDayBefore(date: Date) {
+  return new Date((new Date(date.getTime())).setDate(date.getDate() - 1))
+}
+export function daysBefore(n: number, date: Date) {
+  return getArrayFromZeroTo(n).reduce(oneDayBefore, date);
+}
+
+export type ZeroMonth = 0|1|2|3|4|5|6|7|8|9|10|11
+export type DayOfMonth = 0|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31;
+
+export function getDateByYmd(y: number, m: ZeroMonth, d: DayOfMonth) {
+  return new Date(Date.UTC(y, m, d));
+}
+
+export async function loopUntilToday(since: Date, callback: (d: Date) => Promise<void>) {
+  const today = new Date();
+  for (const d = since; d <= today; d.setDate(d.getDate() + 1)) {
+    await callback(new Date(d));
+  }
 }
