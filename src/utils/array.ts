@@ -35,3 +35,13 @@ export function getArrayRange(start: number, end: number) {
   const endPlus1 = end + 1;
   return getArrayFromZeroOfLengthN(endPlus1 - start).map(num => num + start);
 }
+
+export function group<T>(array: T[], lense: (el: T) => string) {
+  return array.reduce((p, c) => {
+    const k = lense(c);
+    return {
+      ...p,
+      [k]: p[k] ? [...p[k], c] : [c],
+    };
+  }, {} as { [k: string]: T[] });
+}
