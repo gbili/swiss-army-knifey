@@ -16,6 +16,7 @@ import sendSMS from './utils/sendSMS';
 import starEvents from './utils/starEvents';
 import sleep, { loggedSleep, logSleptForSeconds, sleepDaysCallback, sleepForCallback, sleepHoursCallback, sleepMillisecondsCallback, sleepMinutesCallback, sleepSecondsCallback, sleepyLoopUntilToday } from './utils/sleep';
 import { excludeKeyWithValuesOfType, toString } from './utils/uncategorized';
+import { DAY_IN_MILLISECONDS, getDateRangeFromTimeframe, getPastTimeRange, getThisDayTimeRange, getThisMonthTimeRange, getThisWeekTimeRange, getThisYearTimeRange, getTimeframeFromDateRange, getTimeRangeFromDateRange, getTimeRangeFromTimeframe, HOUR_IN_MILLISECONDS, isSameTimeRange, timeWindowToMilliseconds } from './utils/time';
 
 
 export {
@@ -87,5 +88,18 @@ export {
   toString,
   unmerge,
   zeroPadded,
+  HOUR_IN_MILLISECONDS,
+  DAY_IN_MILLISECONDS,
+  getDateRangeFromTimeframe,
+  getTimeframeFromDateRange,
+  getThisDayTimeRange,
+  getThisWeekTimeRange,
+  getThisMonthTimeRange,
+  getThisYearTimeRange,
+  getPastTimeRange,
+  getTimeRangeFromDateRange,
+  getTimeRangeFromTimeframe,
+  isSameTimeRange,
+  timeWindowToMilliseconds,
 };
 export default pad;
