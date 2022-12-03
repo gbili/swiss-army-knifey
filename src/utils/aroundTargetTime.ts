@@ -78,19 +78,21 @@ export const timeIsMinutesAroundTargetGen: TimeIsMinutesAroundTargetGen = ({ log
 }
 
 export enum TimeUnit {
-  milliseconds='milliseconds',
-  seconds='seconds',
-  minutes='minutes',
-  hours='hours',
-  days='days',
+  millisecond='millisecond',
+  second='second',
+  minute='minute',
+  hour='hour',
+  day='day',
+  week='week',
 }
 
 export const unitToLowerFactor: { [k in TimeUnit]: number; } = {
-  milliseconds: 1,
-  seconds: 1000,
-  minutes: 60,
-  hours: 60,
-  days: 24,
+  millisecond: 1,
+  second: 1000,
+  minute: 60,
+  hour: 60,
+  day: 24,
+  week: 7,
 }
 
 export function toMilliseconds(unit: TimeUnit) {

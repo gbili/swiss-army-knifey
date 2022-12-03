@@ -330,16 +330,16 @@ describe('time', function () {
   });
   describe(`toMilliseconds`, function() {
     it('should output milliseconds in one millisecond', async function() {
-      expect(toMilliseconds(TimeUnit.milliseconds)).to.equal(1);
+      expect(toMilliseconds(TimeUnit.millisecond)).to.equal(1);
     });
     it('should output milliseconds in one second', async function() {
-      expect(toMilliseconds(TimeUnit.seconds)).to.equal(1000);
+      expect(toMilliseconds(TimeUnit.second)).to.equal(1000);
     });
     it('should output milliseconds in one minute', async function() {
-      expect(toMilliseconds(TimeUnit.minutes)).to.equal(1000*60);
+      expect(toMilliseconds(TimeUnit.minute)).to.equal(1000*60);
     });
     it('should output milliseconds in one hour ', async function() {
-      expect(toMilliseconds(TimeUnit.hours)).to.equal(1000*60*60);
+      expect(toMilliseconds(TimeUnit.hour)).to.equal(1000*60*60);
     });
   });
 

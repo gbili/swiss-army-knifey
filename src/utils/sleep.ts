@@ -28,11 +28,11 @@ export function logSleptForSeconds(s: number) {
   console.log(`Slept for ${s} seconds`);
 }
 
-export const sleepMillisecondsCallback = sleepForCallback(TimeUnit.hours);
-export const sleepSecondsCallback = sleepForCallback(TimeUnit.seconds);
-export const sleepMinutesCallback = sleepForCallback(TimeUnit.minutes);
-export const sleepHoursCallback = sleepForCallback(TimeUnit.hours);
-export const sleepDaysCallback = sleepForCallback(TimeUnit.days);
+export const sleepMillisecondsCallback = sleepForCallback(TimeUnit.hour);
+export const sleepSecondsCallback = sleepForCallback(TimeUnit.second);
+export const sleepMinutesCallback = sleepForCallback(TimeUnit.minute);
+export const sleepHoursCallback = sleepForCallback(TimeUnit.hour);
+export const sleepDaysCallback = sleepForCallback(TimeUnit.day);
 
 export async function loggedSleep(seconds: number) {
   return await sleepSecondsCallback(seconds, logSleptForSeconds);
