@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { getRootDir } from '../../src';
+import { getRootDir } from '../../src/node';
 
 describe('getRootDir', function () {
   describe(`getRootDir(__dirname)`, function() {

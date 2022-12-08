@@ -1,5 +1,5 @@
 import { compose } from 'ramda';
-import { getFileContentsSync, putFileContentsSync } from './fsSync';
+import { getFileContentsSync, putFileContentsSync } from './node/fsSync';
 
 type DefinedDictElements = { [k: string]: string; };
 export const remove_VALUE = (c: string) => c.substring(0, c.length - '_VALUE'.length);

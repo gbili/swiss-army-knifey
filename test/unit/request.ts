@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { stringify } from 'querystring';
-import { couldDownload, createHeadersWithPHPSESSID, get, getPHPSESSIDWithoutPathOrEmpty } from '../../src/utils/request';
+import { couldDownload, createHeadersWithPHPSESSID, get, getPHPSESSIDWithoutPathOrEmpty } from '../../src/utils/node/request';
 
 describe('request', function () {
   describe(`couldDownload`, function() {

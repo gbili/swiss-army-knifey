@@ -3,8 +3,8 @@ import 'dotenv/config';
 import readline from 'readline';
 import { compose, join, map, sort } from "ramda";
 import { getPlaceholders, remove_VALUE } from "../src/utils/envReplace";
-import { getFileContentsSync, putFileContentsSync } from '../src/utils/fsSync';
-import { getUserRootDirOrThrow, prependDir } from "../src/utils/path";
+import { getFileContentsSync, putFileContentsSync } from '../src/utils/node/fsSync';
+import { getUserRootDirOrThrow, prependDir } from "../src/utils/node/path";
 import { arrayUnique } from '../src/utils/array';
 
 const [,, ...args] = process.argv

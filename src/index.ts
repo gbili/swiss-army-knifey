@@ -3,60 +3,66 @@ import createStarEvents from './utils/starEvents';
 import { getArrayFromZeroOfLengthN, getArrayRange, arrayOf, arrayUnique, mapSeries, forEachSeries, unmerge } from './utils/array';
 import { extractIPAddress } from './utils/extractIPAddress';
 import getKeyOrThrow, { hasKey, hasKeyOrThrow, hasOwnProperty } from './utils/envHasKey';
-import { getFileContentsSync, putFileContentsSync } from './utils/fsSync';
 import { hoursAgo, oneHourAgo, secondsToYMWDHMS, secondsToYMWDHMSSentence } from './utils/getStringDate';
 import isError from './utils/isError';
-import { pathCouldBeNodeModuleRootDir, pathWithinCouldBeNodeModule, getCouldBeNodeModuleRootDir, isWithinNodeModuleOrClonedRepo, isWithinNodeModule, getNodeModuleRootDir } from './utils/moduleOrClonedRepo';
 import { pad, zeroPadded } from './utils/pad';
-import { getRootDir, getUserRootDirOrThrow } from './utils/path';
-import { createDir, createDirIfNotExists, existsDir, getFileContents, putFileContents } from './utils/promiseFs';
 import plugIPAddressIntoContext from './utils/plugIPAddressIntoContext';
-import { get, download, request, createHeadersWithPHPSESSID, createHeadersOptionWithCookie, getPHPSESSIDWithoutPathOrEmpty } from './utils/request';
 import sendSMS from './utils/sendSMS';
 import starEvents from './utils/starEvents';
 import sleep, { loggedSleep, logSleptForSeconds, sleepDaysCallback, sleepForCallback, sleepHoursCallback, sleepMillisecondsCallback, sleepMinutesCallback, sleepSecondsCallback, sleepyLoopUntilToday } from './utils/sleep';
 import { excludeKeyWithValuesOfType, toString } from './utils/uncategorized';
 import { DAY_IN_MILLISECONDS, getDateRangeFromTimeframe, getPastTimeRange, getThisDayTimeRange, getThisMonthTimeRange, getThisWeekTimeRange, getThisYearTimeRange, getTimeframeFromDateRange, getTimeRangeFromDateRange, getTimeRangeFromTimeframe, HOUR_IN_MILLISECONDS, isSameTimeRange, timeWindowToMilliseconds } from './utils/time';
 
+if (typeof window === 'undefined') {
+
+  // {
+  // createDir,
+  // createDirIfNotExists,
+  // createHeadersOptionWithCookie,
+  // createHeadersWithPHPSESSID,
+  // download,
+  // existsDir,
+  // get,
+  // getCouldBeNodeModuleRootDir,
+  // getFileContents,
+  // getFileContentsSync,
+  // getNodeModuleRootDir,
+  // getPHPSESSIDWithoutPathOrEmpty,
+  // getUserRootDirOrThrow,
+  // getRootDir,
+  // isWithinNodeModuleOrClonedRepo,
+  // isWithinNodeModule,
+  // pathCouldBeNodeModuleRootDir,
+  // pathWithinCouldBeNodeModule,
+  // putFileContents,
+  // putFileContentsSync,
+  // request,
+  // }
+
+}
 
 export {
   arrayOf,
   arrayUnique,
   correctDateToMatchTimeInTargetTimeZone,
-  createDir,
-  createDirIfNotExists,
   createStarEvents,
-  createHeadersOptionWithCookie,
-  createHeadersWithPHPSESSID,
   daysBefore,
-  download,
   excludeKeyWithValuesOfType,
-  existsDir,
   extractIPAddress,
   extractParamsFromString,
   forEachSeries,
-  get,
   getArrayFromZeroOfLengthN,
   getArrayRange,
-  getCouldBeNodeModuleRootDir,
   getDateByYmd,
-  getFileContents,
-  getFileContentsSync,
   getHostTimeZone,
   getHourDiff,
   getKeyOrThrow,
-  getNodeModuleRootDir,
-  getPHPSESSIDWithoutPathOrEmpty,
-  getUserRootDirOrThrow,
-  getRootDir,
   hasKey,
   hasKeyOrThrow,
   hasOwnProperty,
   hoursAgo,
   hoursToAddToGoFromSourceToTargetTZ,
   isError,
-  isWithinNodeModuleOrClonedRepo,
-  isWithinNodeModule,
   loggedSleep,
   logSleptForSeconds,
   loopUntilToday,
@@ -64,12 +70,7 @@ export {
   oneHourAgo,
   oneDayBefore,
   pad,
-  pathCouldBeNodeModuleRootDir,
-  pathWithinCouldBeNodeModule,
   plugIPAddressIntoContext,
-  putFileContents,
-  putFileContentsSync,
-  request,
   secondsToYMWDHMS,
   secondsToYMWDHMSSentence,
   sleep,

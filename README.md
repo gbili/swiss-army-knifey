@@ -100,3 +100,7 @@ import { daysBefore } from 'swiss-army-knifey';
 const today = new Date(); // 2022-10-11T03:14:15
 daysBefore(5, today); // 2022-10-6T03:14:15
 ```
+
+## Change log
+
+**important**: since version `1.17.0` all node depending utilities are exported from file `src/node.ts` which possibly means.

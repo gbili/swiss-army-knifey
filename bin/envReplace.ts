@@ -2,7 +2,7 @@
 import 'dotenv/config';
 import { compose } from "ramda";
 import { getHydratablePlaceholders, hydrateTemplateFromEnvAs } from "../src/utils/envReplace";
-import { getUserRootDirOrThrow, prependDir } from "../src/utils/path";
+import { getUserRootDirOrThrow, prependDir } from "../src/utils/node/path";
 
 const [,, ...args] = process.argv
 
