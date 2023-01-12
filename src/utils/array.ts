@@ -9,6 +9,27 @@ export const forEachSeries = async <A, C extends (item: A, index: number|string,
   }
 }
 
+export type ReducerWithBrakeCallback<U, T> = (acc: U, curr: T) => U;
+export type ShouldBreakCallback<U, T> = (acc: U, curr: T) => boolean;
+
+export async function reduceWithBreak<T, U>(arr: T[], reducer: (acc: U, curr: T) => Promise<U>, shouldBreak: (acc: U, curr: T) => boolean, initialValue: U) {
+  let result = initialValue;
+  for (const item of arr) {
+    if (shouldBreak(result, item)) break;
+    result = await reducer(result, item);
+  }
+  return result;
+}
+
+export function reduceWithBreakSync<T, U>(arr: T[], reducer: (acc: U, curr: T) => U, shouldBreak: (acc: U, curr: T) => boolean, initialValue: U) {
+  let result = initialValue;
+  for (const item of arr) {
+    if (shouldBreak(result, item)) break;
+    result = reducer(result, item);
+  }
+  return result;
+}
+
 export type UnpackPromise<T> = T extends Promise<infer Z> ? Z : T;
 
 export const mapSeries = async <A, C extends (item: A, index: number|string, array: A[]) => any>(arr: A[], callback: C): Promise<UnpackPromise<ReturnType<C>>[]> => {
