@@ -10,4 +10,10 @@ export const excludeKeyWithValuesOfType = <O extends object, T extends 'undefine
   return (Object.keys(o) as (keyof O)[]).filter(k => typeof o[k] !== excludeType);
 };
 
+export const isMeantToBeTrue = (v: any) => {
+  return typeof v !== 'undefined' && ['true', '1', true, 1, 'yes'].includes(v);
+}
+
+export const isMeantToBeFalse = (v: any) => !isMeantToBeTrue(v)
+
 export default toString;

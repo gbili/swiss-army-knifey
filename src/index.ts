@@ -10,7 +10,7 @@ import plugIPAddressIntoContext from './utils/plugIPAddressIntoContext';
 import sendSMS from './utils/sendSMS';
 import starEvents from './utils/starEvents';
 import sleep, { loggedSleep, logSleptForSeconds, sleepDaysCallback, sleepForCallback, sleepHoursCallback, sleepMillisecondsCallback, sleepMinutesCallback, sleepSecondsCallback, sleepyLoopBetween, sleepyLoopUntilToday } from './utils/sleep';
-import { excludeKeyWithValuesOfType, toString } from './utils/uncategorized';
+import { excludeKeyWithValuesOfType, isMeantToBeFalse, isMeantToBeTrue, toString } from './utils/uncategorized';
 import { DAY_IN_MILLISECONDS, getDateRangeFromTimeframe, getPastTimeRange, getThisDayTimeRange, getThisMonthTimeRange, getThisWeekTimeRange, getThisYearTimeRange, getTimeframeFromDateRange, getTimeRangeFromDateRange, getTimeRangeFromTimeframe, HOUR_IN_MILLISECONDS, isSameTimeRange, timeWindowToMilliseconds } from './utils/time';
 
 export {
@@ -35,6 +35,8 @@ export {
   hoursAgo,
   hoursToAddToGoFromSourceToTargetTZ,
   isError,
+  isMeantToBeFalse,
+  isMeantToBeTrue,
   loggedSleep,
   logSleptForSeconds,
   loopBetween,
