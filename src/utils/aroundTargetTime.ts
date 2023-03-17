@@ -126,9 +126,13 @@ export function getDateByYmd(y: number, m: ZeroMonth, d: DayOfMonth) {
   return new Date(Date.UTC(y, m, d));
 }
 
-export async function loopUntilToday(since: Date, callback: (d: Date) => Promise<void>) {
+export async function loopUntilToday(from: Date, callback: (d: Date) => Promise<void>) {
   const today = new Date();
-  for (const d = since; d <= today; d.setDate(d.getDate() + 1)) {
+  await loopBetween(from, today, callback);
+}
+
+export async function loopBetween(from: Date, to: Date, callback: (d: Date) => Promise<void>) {
+  for (const d = from; d <= to; d.setDate(d.getDate() + 1)) {
     await callback(new Date(d));
   }
 }

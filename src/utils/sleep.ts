@@ -1,4 +1,4 @@
-import { loopUntilToday, TimeUnit, toMilliseconds } from "./aroundTargetTime";
+import { loopBetween, TimeUnit, toMilliseconds } from "./aroundTargetTime";
 import { getArrayFromZeroOfLengthN } from "./array";
 
 /**
@@ -38,14 +38,25 @@ export async function loggedSleep(seconds: number) {
   return await sleepSecondsCallback(seconds, logSleptForSeconds);
 }
 
-export async function sleepyLoopUntilToday({ startAt, doBeforeEachSleepCallback, sleepForSeconds, shouldAwaitCallback, doEachSecond }: {
-  startAt: Date,
+export async function sleepyLoopUntilToday(props: {
+  from: Date,
   doBeforeEachSleepCallback: (date: Date) => any,
   sleepForSeconds?: number,
   shouldAwaitCallback?: boolean,
   doEachSecond?: (second: number) => any,
 }) {
-  return await loopUntilToday(startAt, async date => {
+  return await sleepyLoopBetween({...props, to: new Date()})
+}
+
+export async function sleepyLoopBetween({ from, to, doBeforeEachSleepCallback, sleepForSeconds, shouldAwaitCallback, doEachSecond }: {
+  from: Date,
+  to: Date,
+  doBeforeEachSleepCallback: (date: Date) => any,
+  sleepForSeconds?: number,
+  shouldAwaitCallback?: boolean,
+  doEachSecond?: (second: number) => any,
+}) {
+  return await loopBetween(from, to, async date => {
     shouldAwaitCallback ? await doBeforeEachSleepCallback(date) : doBeforeEachSleepCallback(date);
     await sleepSecondsCallback(sleepForSeconds || 5, doEachSecond);
   });

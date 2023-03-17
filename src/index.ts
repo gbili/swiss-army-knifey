@@ -1,4 +1,4 @@
-import { correctDateToMatchTimeInTargetTimeZone, daysBefore, extractParamsFromString, getDateByYmd, getHostTimeZone, getHourDiff, hoursToAddToGoFromSourceToTargetTZ, loopUntilToday, oneDayBefore, toMilliseconds, timeIsMinutesAroundTargetGen, TimeUnit } from './utils/aroundTargetTime';
+import { correctDateToMatchTimeInTargetTimeZone, daysBefore, extractParamsFromString, getDateByYmd, getHostTimeZone, getHourDiff, hoursToAddToGoFromSourceToTargetTZ, loopBetween, loopUntilToday, oneDayBefore, toMilliseconds, timeIsMinutesAroundTargetGen, TimeUnit } from './utils/aroundTargetTime';
 import createStarEvents from './utils/starEvents';
 import { getArrayFromZeroOfLengthN, getArrayRange, arrayOf, arrayUnique, mapSeries, forEachSeries, unmerge, reduceWithBreakSync, reduceWithBreak } from './utils/array';
 import { extractIPAddress } from './utils/extractIPAddress';
@@ -9,7 +9,7 @@ import { pad, zeroPadded } from './utils/pad';
 import plugIPAddressIntoContext from './utils/plugIPAddressIntoContext';
 import sendSMS from './utils/sendSMS';
 import starEvents from './utils/starEvents';
-import sleep, { loggedSleep, logSleptForSeconds, sleepDaysCallback, sleepForCallback, sleepHoursCallback, sleepMillisecondsCallback, sleepMinutesCallback, sleepSecondsCallback, sleepyLoopUntilToday } from './utils/sleep';
+import sleep, { loggedSleep, logSleptForSeconds, sleepDaysCallback, sleepForCallback, sleepHoursCallback, sleepMillisecondsCallback, sleepMinutesCallback, sleepSecondsCallback, sleepyLoopBetween, sleepyLoopUntilToday } from './utils/sleep';
 import { excludeKeyWithValuesOfType, toString } from './utils/uncategorized';
 import { DAY_IN_MILLISECONDS, getDateRangeFromTimeframe, getPastTimeRange, getThisDayTimeRange, getThisMonthTimeRange, getThisWeekTimeRange, getThisYearTimeRange, getTimeframeFromDateRange, getTimeRangeFromDateRange, getTimeRangeFromTimeframe, HOUR_IN_MILLISECONDS, isSameTimeRange, timeWindowToMilliseconds } from './utils/time';
 
@@ -37,6 +37,7 @@ export {
   isError,
   loggedSleep,
   logSleptForSeconds,
+  loopBetween,
   loopUntilToday,
   mapSeries,
   oneHourAgo,
@@ -54,6 +55,7 @@ export {
   sleepMinutesCallback,
   sleepHoursCallback,
   sleepDaysCallback,
+  sleepyLoopBetween,
   sleepyLoopUntilToday,
   sendSMS,
   starEvents,
