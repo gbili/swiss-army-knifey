@@ -1,4 +1,4 @@
-import { correctDateToMatchTimeInTargetTimeZone, daysBefore, extractParamsFromString, getDateByYmd, getHostTimeZone, getHourDiff, hoursToAddToGoFromSourceToTargetTZ, loopBetween, loopUntilToday, oneDayBefore, toMilliseconds, timeIsMinutesAroundTargetGen, TimeUnit } from './utils/aroundTargetTime';
+import { correctDateToMatchTimeInTargetTimeZone, daysBefore, extractParamsFromString, getDateByYmd, getHostTimeZone, getHourDiff, hoursToAddToGoFromSourceToTargetTZ, loopBetween, loopUntilToday, oneDayBefore, toMilliseconds, timeIsMinutesAroundTargetGen, TimeUnit, startOfDay, endOfDay } from './utils/aroundTargetTime';
 import createStarEvents from './utils/starEvents';
 import { getArrayFromZeroOfLengthN, getArrayRange, arrayOf, arrayUnique, mapSeries, forEachSeries, unmerge, reduceWithBreakSync, reduceWithBreak } from './utils/array';
 import { extractIPAddress } from './utils/extractIPAddress';
@@ -19,6 +19,7 @@ export {
   correctDateToMatchTimeInTargetTimeZone,
   createStarEvents,
   daysBefore,
+  endOfDay,
   excludeKeyWithValuesOfType,
   extractIPAddress,
   extractParamsFromString,
@@ -61,6 +62,7 @@ export {
   sleepyLoopUntilToday,
   sendSMS,
   starEvents,
+  startOfDay,
   timeIsMinutesAroundTargetGen,
   TimeUnit,
   toMilliseconds,

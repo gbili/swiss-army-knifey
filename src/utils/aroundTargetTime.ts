@@ -115,6 +115,14 @@ export function oneDayBefore(date: Date) {
   return new Date((new Date(date.getTime())).setDate(date.getDate() - 1))
 }
 
+export function startOfDay(date: Date) {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+}
+
+export function endOfDay(date: Date) {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59, 999);
+}
+
 export function daysBefore(n: number, date: Date) {
   return getArrayFromZeroOfLengthN(n).reduce(oneDayBefore, date);
 }
