@@ -1,4 +1,4 @@
-import { loopBetween, TimeUnit, toMilliseconds } from "./aroundTargetTime";
+import { loopBetweenDayStarts, TimeUnit, toMilliseconds } from "./aroundTargetTime";
 import { getArrayFromZeroOfLengthN } from "./array";
 
 /**
@@ -56,7 +56,7 @@ export async function sleepyLoopBetween({ from, to, doBeforeEachSleepCallback, s
   shouldAwaitCallback?: boolean,
   doEachSecond?: (second: number) => any,
 }) {
-  return await loopBetween(from, to, async date => {
+  return await loopBetweenDayStarts(from, to, async date => {
     shouldAwaitCallback ? await doBeforeEachSleepCallback(date) : doBeforeEachSleepCallback(date);
     await sleepSecondsCallback(sleepForSeconds || 5, doEachSecond);
   });

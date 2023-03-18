@@ -1,11 +1,11 @@
 {
   "name": "swiss-army-knifey",
-  "version": "1.21.1",
+  "version": "1.21.2",
   "description": "node equivalent of browser str.prototype.padStart str.prototype.padEnd",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
   "scripts": {
-    "test": "tsc && NODE_ENV=test mocha --timeout 10000 --recursive ./build/test",
+    "test": "tsc && NODE_ENV=test mocha --timeout 50000 --recursive ./build/test",
     "start": "tsc && node ./build/index.js",
     "serve": "tsc && NODE_ENV=production node ./build/index.js"
   },

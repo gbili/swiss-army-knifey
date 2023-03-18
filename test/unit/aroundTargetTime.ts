@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { correctDateToMatchTimeInTargetTimeZone, daysBefore, extractParamsFromString, getHostTimeZone, getHourDiff, hoursToAddToGoFromSourceToTargetTZ, timeIsMinutesAroundTargetGen, TimeUnit, toMilliseconds } from '../../src/utils/aroundTargetTime';
+import { correctDateToMatchTimeInTargetTimeZone, daysBefore, extractParamsFromString, getHostTimeZone, getHourDiff, hoursToAddToGoFromSourceToTargetTZ, loopBetweenDayStarts, loopBetweenTimes, timeIsMinutesAroundTargetGen, TimeUnit, toMilliseconds } from '../../src/utils/aroundTargetTime';
 import { zeroPadded } from '../../src/utils/pad';
 
 const logger = {
@@ -350,5 +350,134 @@ describe('time', function () {
       expect(daysBefore(5, someDay).toISOString()).to.equal(someDayMinus5.toISOString());
     });
   });
+
+  describe('Test loopBetweenTimes', () => {
+    it('should call the callback with the right dates when includeToWhenLowerIncrementThanUnit: undefined', async () => {
+      const dates: Date[] = [];
+      const from = new Date('2023-03-18 10:15:00');
+      const to = new Date('2023-03-18 13:15:00');
+      await loopBetweenTimes({
+        from,
+        to,
+        incrementUnit: TimeUnit.hour,
+        callback: (d: Date) => {
+          dates.push(d);
+          return Promise.resolve();
+        },
+      });
+      expect(dates).to.deep.equal([
+        from,
+        new Date('2023-03-18 11:00:00'),
+        new Date('2023-03-18 12:00:00'),
+        new Date('2023-03-18 13:00:00'),
+      ]);
+    });
+
+    it('should call the callback with the right dates and include <to> date', async () => {
+      const dates: Date[] = [];
+      const from = new Date('2023-03-18 10:15:00');
+      const to = new Date('2023-03-18 13:15:00');
+      await loopBetweenTimes({
+        from,
+        to,
+        incrementUnit: TimeUnit.hour,
+        includeToWhenLowerIncrementThanUnit: true,
+        callback: (d: Date) => {
+          dates.push(d);
+          return Promise.resolve();
+        },
+      });
+      expect(dates).to.deep.equal([
+        from,
+        new Date('2023-03-18 11:00:00'),
+        new Date('2023-03-18 12:00:00'),
+        new Date('2023-03-18 13:00:00'),
+        to,
+      ]);
+    });
+
+    it('should call the callback with the right dates for day unit', async () => {
+      const dates: Date[] = [];
+      const from = new Date('2023-03-18 10:15:00');
+      const to = new Date('2023-03-20 13:15:00');
+      await loopBetweenTimes({
+        from,
+        to,
+        incrementUnit: TimeUnit.day,
+        callback: (d: Date) => {
+          dates.push(d);
+          return Promise.resolve();
+        },
+      });
+      expect(dates).to.deep.equal([
+        from,
+        new Date('2023-03-19 00:00:00'),
+        new Date('2023-03-20 00:00:00'),
+      ]);
+    });
+
+    it('should call the callback with the right dates for day unit and include <to>', async () => {
+      const dates: Date[] = [];
+      const from = new Date('2023-03-18 10:15:00');
+      const to = new Date('2023-03-20 13:15:00');
+      await loopBetweenTimes({
+        from,
+        to,
+        incrementUnit: TimeUnit.day,
+        includeToWhenLowerIncrementThanUnit: true,
+        callback: (d: Date) => {
+          dates.push(d);
+          return Promise.resolve();
+        },
+      });
+      expect(dates).to.deep.equal([
+        from,
+        new Date('2023-03-19 00:00:00'),
+        new Date('2023-03-20 00:00:00'),
+        to,
+      ]);
+    });
+
+  });
+
+  describe('Test loopBetweenDayStarts', () => {
+    it('should call the callback with only once when <from> and <to> are in same day', async () => {
+      const dates: Date[] = [];
+      const from = new Date('2023-03-18 10:15:00');
+      const to = new Date('2023-03-18 13:15:00');
+      await loopBetweenDayStarts(
+        from,
+        to,
+        (d: Date) => {
+          dates.push(d);
+          return Promise.resolve();
+        },
+      );
+      expect(dates).to.deep.equal([
+        new Date('2023-03-18 00:00:00'),
+      ]);
+    });
+
+    it('should call the callback enought times when <from> and <to> are in not same day', async () => {
+      const dates: Date[] = [];
+      const from = new Date('2023-03-18 10:15:00');
+      const to = new Date('2023-03-20 13:15:00');
+      await loopBetweenDayStarts(
+        from,
+        to,
+        (d: Date) => {
+          dates.push(d);
+          return Promise.resolve();
+        },
+      );
+      expect(dates).to.deep.equal([
+        new Date('2023-03-18 00:00:00'),
+        new Date('2023-03-19 00:00:00'),
+        new Date('2023-03-20 00:00:00'),
+      ]);
+    });
+
+  });
+
 });
 
