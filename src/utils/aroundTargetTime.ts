@@ -140,7 +140,12 @@ export async function loopUntilToday(from: Date, callback: (d: Date) => Promise<
 }
 
 export async function loopBetween(from: Date, to: Date, callback: (d: Date) => Promise<void>) {
-  for (const d = from; d <= to; d.setDate(d.getDate() + 1)) {
-    await callback(new Date(d));
+  const d = from;
+  while (d <= to) {
+    await callback(new Date(d))
+    d.setDate(d.getDate() + 1)
+  }
+  if (d > to) {
+    await callback(new Date(to));
   }
 }
