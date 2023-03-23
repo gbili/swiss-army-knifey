@@ -24,7 +24,7 @@ describe('sleepyLoopBetween', () => {
 
   const from = new Date('2020-01-01');
   const to = new Date('2020-01-04');
-  const sleepForSeconds = 5;
+  const sleepForSeconds = 2;
   const shouldAwaitCallback = true;
   const daysInPeriod = (to.getDay() - from.getDay() + 1)
 
