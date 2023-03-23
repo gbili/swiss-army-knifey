@@ -14,6 +14,8 @@ export const isMeantToBeTrue = (v: any) => {
   return typeof v !== 'undefined' && ['true', '1', true, 1, 'yes'].includes(v);
 }
 
+export const dateToString = (d: Date) => `${d.toLocaleDateString('fr-CA')} ${d.toLocaleTimeString('fr-CH')}`
+
 export const isMeantToBeFalse = (v: any) => !isMeantToBeTrue(v)
 
 export default toString;
