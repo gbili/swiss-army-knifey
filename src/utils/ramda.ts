@@ -1,23 +1,18 @@
 import { composeWith } from "ramda";
 
-export type AnyFunction = (...args: any[]) => any;
+export type AnyFunction<A extends any[] = any[], R = any> = (...args: A) => R;
 
-export type ChainFunctionsExtractInputOutput<A extends any[], R> = [
-  (...args: any) => R,
-  ...AnyFunction[],
-  (...args: A) => any
-]
-| [
-  (...args: A) => R
-];
+export type ChainFunctionsExtractInputOutput<A extends any[], R> =
+  [AnyFunction<any, R>, ...AnyFunction[], AnyFunction<A, any>]
+  | [AnyFunction<A, R>];
 
-type UnboxArrayOfPromises<T> = T extends Promise<infer U>[] ? Promise<U[]> : T;
+type UnboxIfArrayOfPromises<T> = T extends Promise<infer U>[] ? Promise<U[]> : T;
 
 export function composeWithPromise<A extends any[], R>(
   ...fns: ChainFunctionsExtractInputOutput<A, R>
 ): (
   ...args: A
-) => UnboxArrayOfPromises<R> {
+) => UnboxIfArrayOfPromises<R> {
   const unboxIfLastFn = (f: AnyFunction) => (v: any) => fns[0] === f ? unboxPromisesInArray(f(v)) : f(v);
   const transformer = (f: AnyFunction, val: any) => {
     const wrappedFn = unboxIfLastFn(f);
