@@ -10,7 +10,7 @@ type UnboxIfArrayOfPromises<T> = T extends Promise<infer U>[] ? Promise<U[]> : T
 
 export function composeWithPromise<A extends any[], R>(
   ...fns: ChainFunctionsExtractInputOutput<A, R>
-): AnyFunction<A, UnboxIfArrayOfPromises<R>> {
+): (...args: A) => UnboxIfArrayOfPromises<R> {
   const unboxIfLastFn = (f: AnyFunction) => (v: any) => fns[0] === f ? unboxPromisesInArray(f(v)) : f(v);
   const transformer = (f: AnyFunction, val: any) => {
     const wrappedFn = unboxIfLastFn(f);
