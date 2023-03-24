@@ -66,3 +66,7 @@ export function group<T>(array: T[], lense: (el: T) => string) {
     };
   }, {} as { [k: string]: T[] });
 }
+
+export function arraySum(n: number[]): number {
+  return n.reduce((p, c) => p + c, 0);
+}
