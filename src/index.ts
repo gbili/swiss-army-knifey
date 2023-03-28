@@ -13,6 +13,7 @@ import sleep, { loggedSleep, logSleptForSeconds, sleepDaysCallback, sleepForCall
 import { dateToString, excludeKeyWithValuesOfType, isMeantToBeFalse, isMeantToBeTrue, toString } from './utils/uncategorized';
 import { DAY_IN_MILLISECONDS, getDateRangeFromTimeframe, getPastTimeRange, getThisDayTimeRange, getThisMonthTimeRange, getThisWeekTimeRange, getThisYearTimeRange, getTimeframeFromDateRange, getTimeRangeFromDateRange, getTimeRangeFromTimeframe, HOUR_IN_MILLISECONDS, isSameTimeRange, timeWindowToMilliseconds } from './utils/time';
 import { composeWithPromise } from './utils/ramda';
+import logger, { loggerGen } from './utils/logger';
 
 export {
   arrayOf,
@@ -44,6 +45,8 @@ export {
   isError,
   isMeantToBeFalse,
   isMeantToBeTrue,
+  logger,
+  loggerGen,
   loggedSleep,
   logSleptForSeconds,
   loopBetweenDayStarts,
