@@ -33,3 +33,18 @@ export function getDaysFromNowInMilliseconds(days: number) {
   date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
   return date;
 }
+
+export function getCookie(name: string): string | null {
+  const nameWithEqualSign = `${name}=`;
+  const decodedCookie = decodeURIComponent(document.cookie);
+  const cookiesArray = decodedCookie.split(";");
+
+  const foundCookie = cookiesArray.find((cookie) => {
+    const trimmedCookie = cookie.trim();
+    return trimmedCookie.indexOf(nameWithEqualSign) === 0;
+  });
+
+  return foundCookie
+    ? foundCookie.substring(nameWithEqualSign.length).trim()
+    : null;
+}
