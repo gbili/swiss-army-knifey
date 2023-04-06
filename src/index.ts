@@ -14,6 +14,7 @@ import { dateToString, excludeKeyWithValuesOfType, isMeantToBeFalse, isMeantToBe
 import { DAY_IN_MILLISECONDS, getDateRangeFromTimeframe, getPastTimeRange, getThisDayTimeRange, getThisMonthTimeRange, getThisWeekTimeRange, getThisYearTimeRange, getTimeframeFromDateRange, getTimeRangeFromDateRange, getTimeRangeFromTimeframe, HOUR_IN_MILLISECONDS, isSameTimeRange, timeWindowToMilliseconds } from './utils/time';
 import { composeWithPromise } from './utils/ramda';
 import logger, { loggerGen } from './utils/logger';
+import { deleteCookie, setCookie } from './utils/cookie';
 
 export {
   arrayOf,
@@ -24,6 +25,7 @@ export {
   composeWithPromise,
   daysBefore,
   dateToString,
+  deleteCookie,
   endOfDay,
   endOfTimeUnit,
   excludeKeyWithValuesOfType,
@@ -61,6 +63,7 @@ export {
   reduceWithBreakSync,
   secondsToYMWDHMS,
   secondsToYMWDHMSSentence,
+  setCookie,
   sleep,
   sleepForCallback,
   sleepMillisecondsCallback,
