@@ -15,6 +15,7 @@ import { DAY_IN_MILLISECONDS, getDateRangeFromTimeframe, getPastTimeRange, getTh
 import { composeWithPromise } from './utils/ramda';
 import logger, { loggerGen } from './utils/logger';
 import { deleteCookie, getCookie, setCookie } from './utils/cookie';
+import { entriesMap } from './utils/entriesPromise';
 
 export {
   arrayOf,
@@ -28,6 +29,7 @@ export {
   deleteCookie,
   endOfDay,
   endOfTimeUnit,
+  entriesMap,
   excludeKeyWithValuesOfType,
   extractIPAddress,
   extractParamsFromString,
