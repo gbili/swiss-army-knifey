@@ -14,14 +14,14 @@ export function getTypedKey(env: any, keyInEnv: string) {
 
 export const DB_VAR_NAMES = ['DB_HOST', 'DB_USER', 'DB_USER', 'DB_PASSWORD'];
 
-export const envHasVars = (env: any) => (varNames: string[]) => {
+export const envHasKeys = (env: any) => (varNames: string[]) => {
   const envHasKey = envHasKeyGen(env);
   return varNames.filter(envHasKey).length === varNames.length;
 }
 
-export const areVarsInEnv = (varNames: string[]) => (env: any) => {
+export const areKeysInEnv = (varNames: string[]) => (env: any) => {
   const envHasKey = envHasKeyGen(env);
   return varNames.filter(envHasKey).length === varNames.length;
 }
 
-export const areDBVarsInEnv = areVarsInEnv(DB_VAR_NAMES);
+export const areDBKeysInEnv = areKeysInEnv(DB_VAR_NAMES);
