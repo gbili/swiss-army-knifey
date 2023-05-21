@@ -4,11 +4,11 @@ export const envHasKeyGen = (env: any) => (key: string) => {
   return (env[key] || '').length > 0;
 }
 
-export function getFormatedKey(env: any, keyInEnv: string, name: string) {
+export function getTypedKey(env: any, keyInEnv: string) {
   if (!envHasKeyGen(env)(keyInEnv)) {
     throw new Error(`Trouble loading process.env.${keyInEnv}`);
   }
-  let val: string = env[keyInEnv];
+  const val: string = env[keyInEnv];
   return val;
 }
 

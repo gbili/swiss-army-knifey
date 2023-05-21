@@ -16,7 +16,7 @@ import { composeWithPromise } from './utils/ramda';
 import logger, { loggerGen } from './utils/logger';
 import { deleteCookie, getCookie, setCookie } from './utils/cookie';
 import { entriesMap } from './utils/entriesPromise';
-import { envHasKeyGen, getFormatedKey, DB_VAR_NAMES, envHasVars, areVarsInEnv, areDBVarsInEnv } from './utils/env';
+import { envHasKeyGen, getTypedKey, DB_VAR_NAMES, envHasVars, areVarsInEnv, areDBVarsInEnv } from './utils/env';
 
 export type { UnknownEnv } from './utils/env';
 
@@ -89,7 +89,7 @@ export {
   toString,
   unmerge,
   envHasKeyGen,
-  getFormatedKey,
+  getTypedKey,
   DB_VAR_NAMES,
   envHasVars,
   areVarsInEnv,
