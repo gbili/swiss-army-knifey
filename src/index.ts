@@ -12,7 +12,7 @@ import starEvents from './utils/starEvents';
 import sleep, { loggedSleep, logSleptForSeconds, sleepDaysCallback, sleepForCallback, sleepHoursCallback, sleepMillisecondsCallback, sleepMinutesCallback, sleepSecondsCallback, sleepyLoopBetween, sleepyLoopUntilToday } from './utils/sleep';
 import { dateToString, excludeKeyWithValuesOfType, isMeantToBeFalse, isMeantToBeTrue, toString } from './utils/uncategorized';
 import { DAY_IN_MILLISECONDS, getDateRangeFromTimeframe, getPastTimeRange, getThisDayTimeRange, getThisMonthTimeRange, getThisWeekTimeRange, getThisYearTimeRange, getTimeframeFromDateRange, getTimeRangeFromDateRange, getTimeRangeFromTimeframe, HOUR_IN_MILLISECONDS, isSameTimeRange, timeWindowToMilliseconds } from './utils/time';
-import { composeWithPromise } from './utils/ramda';
+import { combineReturns, composeWithPromise, simpleCombineReturns } from './utils/ramda';
 import logger, { loggerGen } from './utils/logger';
 import { deleteCookie, getCookie, setCookie } from './utils/cookie';
 import { entriesMap } from './utils/entriesPromise';
@@ -24,6 +24,7 @@ export {
   arrayOf,
   arrayUnique,
   arraySum,
+  combineReturns,
   correctDateToMatchTimeInTargetTimeZone,
   createStarEvents,
   composeWithPromise,
@@ -70,6 +71,7 @@ export {
   secondsToYMWDHMS,
   secondsToYMWDHMSSentence,
   setCookie,
+  simpleCombineReturns,
   sleep,
   sleepForCallback,
   sleepMillisecondsCallback,
