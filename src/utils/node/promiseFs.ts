@@ -34,7 +34,7 @@ export const createDirIfNotExists = async function (absPath: string) {
   }
 };
 
-export const getFileContents = async function (absPath: string, charset: string = 'utf8'): Promise<string> {
+export const getFileContents = async function (absPath: string, charset: BufferEncoding = 'utf8'): Promise<string> {
   return await (new Promise(function(resolve, reject) {
     fs.readFile(absPath, charset, function(err, data) {
       if (err) { return reject(err); }

@@ -40,6 +40,7 @@ export const couldDownload = async function (uri: string, options?: https.Reques
       const downloadNChunks = 15;
       resp.on('data', (_: Buffer) => {
         if (i++ >= downloadNChunks) return resp.destroy();
+        return;
       });
       resp.on('close', () => resolve({ success: i > downloadNChunks, response: resp }))
       resp.on('error', (err) => reject(err));
