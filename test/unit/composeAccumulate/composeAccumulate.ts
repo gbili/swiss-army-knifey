@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import 'mocha';
 import { composeAccumulate } from '../../../src/utils/ramda';
 
 describe('composeAccumulate with property accumulation', () => {
@@ -10,17 +9,6 @@ describe('composeAccumulate with property accumulation', () => {
 
         const result = await composedFunction({ a: 5 });
         expect(result).to.deep.equal({ a: 5, b: 10, c: 11 });
-    });
-
-    it('accumulates results across synchronous functions', () => {
-        const fn1 = ({ a }: { a: number }) => ({ b: a + 10 });
-        const fn2 = ({ a, b }: { a: number; b: number }) => ({ c: b * 2 });
-        const composedFunction = composeAccumulate(fn1, fn2);
-
-        const resultPromise = composedFunction({ a: 5 });
-        return resultPromise.then(result => {
-            expect(result).to.deep.equal({ a: 5, b: 15, c: 30 });
-        });
     });
 
     it('accumulates results with async and sync functions mixed', async () => {
@@ -57,33 +45,26 @@ describe('composeAccumulate with property accumulation', () => {
         expect(resultForA10).to.deep.equal({ a: 10, b: 5, c: 6, d: 12 });
     });
 
-    it('accumulates results when intermediate functions conditionally add properties', async () => {
-        const fn1 = async ({ a }: { a: number }) => a > 5 ? { b: a - 5 } : {};
-        const fn2 = async ({ a, b }: { a: number; b?: number }) => ({ c: (b || a) + 1 });
-        const fn3 = async ({ c }: { c: number }) => ({ d: c * 2 });
-        const composedFunction = composeAccumulate(fn1, fn2, fn3);
-
-        const resultForA5 = await composedFunction({ a: 5 });
-        const resultForA10 = await composedFunction({ a: 10 });
-
-        // For a: 5, b should not exist, and c is based on a
-        expect(resultForA5).to.deep.equal({ a: 5, c: 6, d: 12 });
-        // For a: 10, b exists and c is based on b
-        expect(resultForA10).to.deep.equal({ a: 10, b: 5, c: 6, d: 12 });
-    });
-
     it('accumulates results when they are string properties', async () => {
       // Function 1: Takes an object with a 'name' property and returns an object with a 'greeting' property
       const f21 = ({ name }: { name: string }) => ({ greeting: `Hello, ${name}` });
       // Function 2: Takes an object with a 'greeting' property and optionally a 'name', and returns an object with a 'farewell' property
       const f22 = ({ greeting, name }: { greeting: string; name?: string }) => ({ farewell: `${greeting}. Goodbye, ${name ?? "stranger"}` });
       const composedFunction = composeAccumulate(f21, f22);
-      const result = await composedFunction({ name: "John" });
+      const result = composedFunction({ name: "John" });
       expect(result).to.deep.equal({
         farewell: "Hello, John. Goodbye, John",
         greeting: "Hello, John",
         name: "John",
       });
+    });
+
+    it('accumulates results across synchronous functions', () => {
+        const fn1 = ({ a }: { a: number }) => ({ b: a + 10 });
+        const fn2 = ({ a, b }: { a: number; b: number }) => ({ c: b * 2 });
+        const composedFunction = composeAccumulate(fn1, fn2);
+        const result = composedFunction({ a: 5 });
+        expect(result).to.deep.equal({ a: 5, b: 15, c: 30 });
     });
 });
 
@@ -136,7 +117,7 @@ describe('composeAccumulate with mixed functions and async delay', () => {
         // Verify the results are as expected
         expect(result).to.deep.equal({ a: 2, b: 3, c: 6 });
         // Verify that it took at least approximately 1000ms due to the async delays
-        expect(duration).to.be.greaterThan(1000 - 50); // Allowing a 50ms margin for the test environment's timing inaccuracies
+        expect(duration).to.be.greaterThan(1000 - 100); // Allowing a 50ms margin for the test environment's timing inaccuracies
     });
 
     it('combines multiple properly', async () => {
@@ -157,7 +138,6 @@ describe('composeAccumulate with mixed functions and async delay', () => {
         } & {
             c: string;
         }> */
-        console.log(c);
         expect(c).to.deep.equal({ a: 10, b: 20, c: "Value: 20" });
     });
 

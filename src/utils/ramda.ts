@@ -47,21 +47,46 @@ type AccumulateFunctions<T extends Array<Function>> = T extends [infer F, ...inf
     : never
   : {};
 
+type IsAnyAsyncFunction<T extends Array<Function>> = T extends [infer F, ...infer Rest]
+  ? F extends (...args: any[]) => Promise<any>
+    ? true
+    : IsAnyAsyncFunction<Rest extends Array<Function> ? Rest : []>
+  : false;
+
+type UnboxPromise<T> = T extends Promise<infer U> ? U : T;
+type IsPromise<T> = T extends Promise<any> ? true : false;
+
+const accumulateAsync = async (acc: any, result: Promise<any>) => ({ ...acc, ...await result });
+const accumulate = (acc: any, result: any) => ({ ...acc, ...result });
+function accumulateGate(acc: any, result: any) {
+  if (result && result.then) {
+    return accumulateAsync(acc, result);
+  }
+  return accumulate(acc, result);
+}
+
 // The composeAccumulate implementation
 export function composeAccumulate<T extends Array<(...args: any[]) => any>>(
   ...fns: T
-): (initialArg: Parameters<T[0]>[0]) => Promise<AccumulateFunctions<T>> {
-  return async (initialArg) => {
-    const accumulate = async (acc: any, func: (...args: any[]) => any) => {
-      const result = await func(acc);
-      return { ...acc, ...result };
-    };
+) {
+  type ResultType = IsPromise<Parameters<T[0]>[0]> extends true ? Promise<UnboxPromise<Parameters<T[0]>[0]> & AccumulateFunctions<T>> : (UnboxPromise<Parameters<T[0]>[0]> & AccumulateFunctions<T>);
+  type IsAsync = IsAnyAsyncFunction<T> extends true ? true : (IsPromise<Parameters<T[0]>[0]> extends true ? true : false);
 
-    return fns.reduce(async (prevPromise, currFunc) => {
-      return prevPromise.then(acc => accumulate(acc, currFunc));
-    }, Promise.resolve(initialArg));
+  const accumulator = (initialArg: Parameters<T[0]>[0]): IsAsync extends true ? Promise<ResultType> : ResultType => {
+    // const awaited = initialArg.then ? Promise.resolve(initialArg) : initialArg;
+    return fns.reduce((acc: any, currFunc) => {
+      if (acc && acc.then) {
+        return acc.then(async (a: any) => await accumulateGate(a, currFunc(a)));
+      }
+      return accumulateGate(acc, currFunc(acc));
+    }, initialArg);
   };
+
+  return accumulator as IsAsync extends true
+    ? (initialArg: Parameters<T[0]>[0]) => Promise<ResultType>
+    : (initialArg: Parameters<T[0]>[0]) => ResultType;
 }
+
 
 const isArrayOfPromises = function <T>(val: any): val is Promise<T>[] {
   return Boolean(Array.isArray(val) && val.length && val[0] && val[0].then);
