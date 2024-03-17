@@ -30,6 +30,74 @@ describe('composeAccumulate with property accumulation', () => {
         expect(result).to.deep.equal({ a: 4, b: 8, c: 9 });
     });
 
+    it('handles functions that interrupt the process', async () => {
+        const fn1 = async ({ a }: { a: number }) => ({});
+        const fn2 = async ({ a }: { a: number }) => ({ b: a * 2 });
+        const preventsThrow = ({ b }: { b: number }) => undefined;
+        const throws = async ({ b }: { b: number }) => {
+            throw new Error("Error should not be raised")
+        };
+        const composedFunction = composeAccumulate(fn1, fn2, preventsThrow, throws);
+
+        const result = await composedFunction({ a: 4 });
+        console.log("eeeeeeee", result)
+        expect(result).to.deep.equal(undefined);
+    });
+
+    it('handles functions that interrupt the process in a promise', async () => {
+        const fn1 = async ({ a }: { a: number }) => ({});
+        const fn2 = async ({ a }: { a: number }) => ({ b: a * 2 });
+        const preventsThrow = async ({ b }: { b: number }) => {
+            await new Promise(r => setTimeout(r, 800));
+            return undefined;
+        };
+        const throws = async ({ b }: { b: number }) => {
+            throw new Error("Error should not be raised")
+        };
+        const composedFunction = composeAccumulate(fn1, fn2, preventsThrow, throws);
+
+        const result = await composedFunction({ a: 4 });
+        console.log("eeeeeeee", result)
+        expect(result).to.deep.equal(undefined);
+    });
+
+    it('handles functions that directly interrupt', async () => {
+        const fn1 = ({ a }: { a: number }) => undefined;
+        const fn2 = async ({ a }: { a: number }) => ({ b: a * 2 });
+        const preventsThrow = async ({ b }: { b: number }) => {
+            await new Promise(r => setTimeout(r, 800));
+            return undefined;
+        };
+        const throws = async ({ b }: { b: number }) => {
+            throw new Error("Error should not be raised")
+        };
+        const composedFunction = composeAccumulate(fn1, fn2, preventsThrow, throws);
+
+        const result = await composedFunction({ a: 4 });
+        console.log("eeeeeeee", result)
+        expect(result).to.deep.equal(undefined);
+    });
+
+    it('handles functions that directly interrupt on a promise', async () => {
+        const directlyInterrupts = async ({ a }: { a: number }) => {
+            await new Promise(r => setTimeout(r, 800));
+            return undefined;
+        };
+        const fn2 = async ({ a }: { a: number }) => ({ b: a * 2 });
+        const preventsThrow = async ({ b }: { b: number }) => {
+            await new Promise(r => setTimeout(r, 800));
+            return undefined;
+        };
+        const throws = async ({ b }: { b: number }) => {
+            throw new Error("Error should not be raised")
+        };
+        const composedFunction = composeAccumulate(directlyInterrupts, fn2, preventsThrow, throws);
+
+        const result = await composedFunction({ a: 4 });
+        console.log("eeeeeeee", result)
+        expect(result).to.deep.equal(undefined);
+    });
+
     it('accumulates results when intermediate functions conditionally add properties', async () => {
         const fn1 = async ({ a }: { a: number }) => a > 5 ? { b: a - 5 } : {};
         const fn2 = async ({ a, b }: { a: number; b?: number }) => ({ c: (b || a) + 1 });

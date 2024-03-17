@@ -56,8 +56,21 @@ type IsAnyAsyncFunction<T extends Array<Function>> = T extends [infer F, ...infe
 type UnboxPromise<T> = T extends Promise<infer U> ? U : T;
 type IsPromise<T> = T extends Promise<any> ? true : false;
 
-const accumulateAsync = async (acc: any, result: Promise<any>) => ({ ...acc, ...await result });
-const accumulate = (acc: any, result: any) => ({ ...acc, ...result });
+const accumulateAsync = async (acc: any, result: Promise<any>) => {
+  const awaitedResult = await result;
+  if (awaitedResult === undefined || awaitedResult === null) {
+    return undefined;
+  }
+  return ({ ...acc, ...awaitedResult })
+};
+
+const accumulate = (acc: any, result: any) => {
+  if (result === undefined || result === null) {
+    return undefined;
+  }
+  return ({ ...acc, ...result })
+};
+
 function accumulateGate(acc: any, result: any) {
   if (result && result.then) {
     return accumulateAsync(acc, result);
@@ -65,7 +78,6 @@ function accumulateGate(acc: any, result: any) {
   return accumulate(acc, result);
 }
 
-// The composeAccumulate implementation
 export function composeAccumulate<T extends Array<(...args: any[]) => any>>(
   ...fns: T
 ) {
@@ -73,10 +85,16 @@ export function composeAccumulate<T extends Array<(...args: any[]) => any>>(
   type IsAsync = IsAnyAsyncFunction<T> extends true ? true : (IsPromise<Parameters<T[0]>[0]> extends true ? true : false);
 
   const accumulator = (initialArg: Parameters<T[0]>[0]): IsAsync extends true ? Promise<ResultType> : ResultType => {
-    // const awaited = initialArg.then ? Promise.resolve(initialArg) : initialArg;
     return fns.reduce((acc: any, currFunc) => {
+      if (acc === undefined) {
+        return undefined;
+      }
       if (acc && acc.then) {
-        return acc.then(async (a: any) => await accumulateGate(a, currFunc(a)));
+        const afterThen = acc.then(async (a: any) => {
+          if (a === undefined) return undefined;
+          return await accumulateGate(a, currFunc(a))
+        });
+        return afterThen;
       }
       return accumulateGate(acc, currFunc(acc));
     }, initialArg);

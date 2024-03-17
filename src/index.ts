@@ -16,6 +16,7 @@ import { combineReturns, composeAccumulate, composeWithPromise, simpleCombineRet
 import logger, { loggerGen } from './utils/logger';
 import { deleteCookie, getCookie, setCookie } from './utils/cookie';
 import { entriesMap } from './utils/entriesPromise';
+import { Either, Left, Right, either } from './utils/functional';
 import { envHasKeyGen, getTypedKey, DB_VAR_NAMES, envHasKeys, areKeysInEnv, areDBKeysInEnv } from './utils/env';
 
 export type { UnknownEnv } from './utils/env';
@@ -32,6 +33,8 @@ export {
   daysBefore,
   dateToString,
   deleteCookie,
+  either,
+  Either,
   endOfDay,
   endOfTimeUnit,
   entriesMap,
@@ -55,6 +58,7 @@ export {
   isError,
   isMeantToBeFalse,
   isMeantToBeTrue,
+  Left,
   logger,
   loggerGen,
   loggedSleep,
@@ -69,6 +73,7 @@ export {
   plugIPAddressIntoContext,
   reduceWithBreak,
   reduceWithBreakSync,
+  Right,
   secondsToYMWDHMS,
   secondsToYMWDHMSSentence,
   setCookie,
