@@ -31,23 +31,24 @@ export const download = async function (uri: string, dest: string, options?: htt
 }
 
 export const couldDownload = async function (uri: string, options?: https.RequestOptions) {
-  return new Promise(function (resolve: (res: Resolve<{ success: boolean; }>) => void, reject: (err: Error) => void){
+  return new Promise<Resolve<{ success: boolean }>>((resolve, reject) => {
     const { get } = getProperHttpModuleFromScheme(new URL(uri));
     const handler = (resp: http.IncomingMessage) => {
-      if (resp.statusCode && resp.statusCode >= 300 && resp.statusCode < 400 && resp.headers.location) return get(resp.headers.location, options || {}, handler);
-      if (resp.statusCode && resp.statusCode !== 200) return reject(new Error(`Unsupported code or Error code ${resp.statusCode}`));
+      if (resp.statusCode && resp.statusCode >= 300 && resp.statusCode < 400 && resp.headers.location) {
+        return get(resp.headers.location, options || {}, handler);
+      }
+      if (resp.statusCode && resp.statusCode !== 200) {
+        return reject(new Error(`Unsupported code or Error code ${resp.statusCode}`));
+      }
       let i = 0;
       const downloadNChunks = 15;
       resp.on('data', (_: Buffer) => {
-        if (i++ >= downloadNChunks) return resp.destroy();
-        return;
+        if (i++ >= downloadNChunks) resp.destroy();
       });
       resp.on('close', () => resolve({ success: i > downloadNChunks, response: resp }))
       resp.on('error', (err) => reject(err));
     };
-    get(uri, options || {}, handler).on("error", (err) => {
-      reject(err);
-    });
+    get(uri, options || {}, handler).on("error", reject);
   });
 }
 
