@@ -5,14 +5,41 @@ export interface Subscribers {
   add(eventName: string, callback: Callback): void;
   remove(eventName: string, callback: Callback): void;
   delete(eventName: string): void;
+  clear(): void;
   toJSON(): Record<string, Callback[]>;
 }
 
 export interface EventEmitter {
+  /** Current subscriptions for debugging purposes */
   subscriptions: Record<string, Callback[]>;
+
+  /**
+   * Emit an event to all subscribers
+   * @param eventName - Name of the event to emit
+   * @param params - Parameters to pass to the callbacks
+   * @throws {Error} If attempting to emit the wildcard event directly
+   */
   emit: (eventName: string, ...params: unknown[]) => void;
+
+  /**
+   * Subscribe to an event
+   * @param eventName - Name of the event or '*' for all events
+   * @param callback - Function to call when the event is emitted
+   */
   on: (eventName: string, callback: Callback) => void;
+
+  /**
+   * Unsubscribe from an event
+   * @param eventName - Name of the event
+   * @param callback - Function to remove from subscribers
+   */
   off: (eventName: string, callback: Callback) => void;
+
+  /**
+   * Remove all subscribers for a specific event
+   * @param eventName - Name of the event to clear
+   */
+  offAll: (eventName: string) => void;
 }
 
 export const createSubscribers = (): Subscribers => {
@@ -44,6 +71,10 @@ export const createSubscribers = (): Subscribers => {
       subscriptions.delete(eventName);
     },
 
+    clear(): void {
+      subscriptions.clear();
+    },
+
     toJSON(): Record<string, Callback[]> {
       return Object.fromEntries(
         Array.from(subscriptions.entries()).map(([key, value]) => [
@@ -55,10 +86,27 @@ export const createSubscribers = (): Subscribers => {
   };
 };
 
+/**
+ * Creates an event emitter with support for wildcards and error handling
+ *
+ * Features:
+ * - Wildcard (*) subscriptions receive all events
+ * - Error handling in event callbacks
+ * - Type-safe event handling
+ * - Memory leak prevention with automatic cleanup
+ */
 const createEventEmitter = (): EventEmitter => {
   const subscribers = createSubscribers();
 
+  const validateEventName = (eventName: string, isEmit = false): void => {
+    if (isEmit && eventName === '*') {
+      throw new Error('Cannot emit wildcard (*) event directly');
+    }
+  };
+
   const emit: EventEmitter['emit'] = (eventName, ...params) => {
+    validateEventName(eventName, true);
+
     const eventSubscribers = Array.from(subscribers.get(eventName));
     const starSubscribers = Array.from(subscribers.get('*'));
 
@@ -72,11 +120,18 @@ const createEventEmitter = (): EventEmitter => {
   };
 
   const on: EventEmitter['on'] = (eventName, callback) => {
+    validateEventName(eventName);
     subscribers.add(eventName, callback);
   };
 
   const off: EventEmitter['off'] = (eventName, callback) => {
+    validateEventName(eventName);
     subscribers.remove(eventName, callback);
+  };
+
+  const offAll: EventEmitter['offAll'] = (eventName) => {
+    validateEventName(eventName);
+    subscribers.delete(eventName);
   };
 
   return {
@@ -86,6 +141,7 @@ const createEventEmitter = (): EventEmitter => {
     emit,
     on,
     off,
+    offAll
   };
 };
 

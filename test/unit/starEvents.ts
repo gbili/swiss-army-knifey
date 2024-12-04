@@ -36,6 +36,11 @@ describe('createEventEmitter', () => {
     expect(regularCallback.calledWith('data')).to.be.true;
   });
 
+  it('should prevent emitting wildcard events directly', () => {
+    const emitter = createEventEmitter();
+    expect(() => emitter.emit('*', 'data')).to.throw('Cannot emit wildcard (*) event directly');
+  });
+
   it('should unsubscribe from events', () => {
     const emitter = createEventEmitter();
     const callback = sinon.spy();
@@ -45,6 +50,20 @@ describe('createEventEmitter', () => {
     emitter.emit('test', 'data');
 
     expect(callback.called).to.be.false;
+  });
+
+  it('should remove all subscribers for an event', () => {
+    const emitter = createEventEmitter();
+    const callback1 = sinon.spy();
+    const callback2 = sinon.spy();
+
+    emitter.on('test', callback1);
+    emitter.on('test', callback2);
+    emitter.offAll('test');
+    emitter.emit('test', 'data');
+
+    expect(callback1.called).to.be.false;
+    expect(callback2.called).to.be.false;
   });
 
   it('should handle errors in event handlers', () => {
