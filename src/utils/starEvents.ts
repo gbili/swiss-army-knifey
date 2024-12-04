@@ -11,7 +11,7 @@ export interface Subscribers {
 
 export interface EventEmitter {
   /** Current subscriptions for debugging purposes */
-  subscriptions: Record<string, Callback[]>;
+  readonly subscriptions: Record<string, Callback[]>;
 
   /**
    * Emit an event to all subscribers
