@@ -6,14 +6,14 @@ export interface LoggerEnvironment {
 }
 
 export interface Logger {
-  log(message: string, ...meta: unknown[]): void;
-  debug(message: string, ...meta: unknown[]): void;
-  info(message: string, ...meta: unknown[]): void;
-  warn(message: string, ...meta: unknown[]): void;
-  error(message: string, ...meta: unknown[]): void;
+  log(message: string, ...meta: any[]): void;
+  debug(message: string, ...meta: any[]): void;
+  info(message: string, ...meta: any[]): void;
+  warn(message: string, ...meta: any[]): void;
+  error(message: string, ...meta: any[]): void;
 }
 
-const devNull = (..._: unknown[]): void => undefined;
+const devNull = (..._: any[]): void => undefined;
 
 const getTimestamp = (): string => `[${dateToString(new Date())}]`;
 
@@ -21,19 +21,19 @@ export const createLogger = (
   env: LoggerEnvironment = { LOGGER_DEBUG: true, LOGGER_LOG: true }
 ): Logger => ({
   log: env.LOGGER_LOG
-    ? (message: string, ...meta: unknown[]) => console.log(getTimestamp(), '[LOG]', message, ...meta)
+    ? (message: string, ...meta: any[]) => console.log(getTimestamp(), '[LOG]', message, ...meta)
     : devNull,
   debug: env.LOGGER_DEBUG
-    ? (message: string, ...meta: unknown[]) => console.log(getTimestamp(), '[DEBUG]', message, ...meta)
+    ? (message: string, ...meta: any[]) => console.log(getTimestamp(), '[DEBUG]', message, ...meta)
     : devNull,
   info: env.LOGGER_DEBUG
-    ? (message: string, ...meta: unknown[]) => console.log(getTimestamp(), '[INFO]', message, ...meta)
+    ? (message: string, ...meta: any[]) => console.log(getTimestamp(), '[INFO]', message, ...meta)
     : devNull,
   warn: env.LOGGER_LOG
-    ? (message: string, ...meta: unknown[]) => console.warn(getTimestamp(), '[WARN]', message, ...meta)
+    ? (message: string, ...meta: any[]) => console.warn(getTimestamp(), '[WARN]', message, ...meta)
     : devNull,
   error: env.LOGGER_LOG
-    ? (message: string, ...meta: unknown[]) => console.error(getTimestamp(), '[ERROR]', message, ...meta)
+    ? (message: string, ...meta: any[]) => console.error(getTimestamp(), '[ERROR]', message, ...meta)
     : devNull,
 });
 

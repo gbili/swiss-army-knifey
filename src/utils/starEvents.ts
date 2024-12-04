@@ -1,6 +1,6 @@
 import { createLogger, Logger } from "./logger";
 
-export type Callback = (...args: unknown[]) => void;
+export type Callback = (...args: any[]) => void;
 
 export interface Subscribers {
   get(eventName: string): Set<Callback>;
@@ -25,7 +25,7 @@ export interface EventEmitter {
    * @param params - Parameters to pass to the callbacks
    * @throws {Error} If attempting to emit the wildcard event directly
    */
-  emit: (eventName: string, ...params: unknown[]) => void;
+  emit: (eventName: string, ...params: any[]) => void;
 
   /**
    * Subscribe to an event
