@@ -8,12 +8,11 @@ import isError from './utils/isError';
 import { pad, zeroPadded } from './utils/pad';
 import plugIPAddressIntoContext from './utils/plugIPAddressIntoContext';
 import sendSMS from './utils/sendSMS';
-import starEvents from './utils/starEvents';
 import sleep, { loggedSleep, logSleptForSeconds, sleepDaysCallback, sleepForCallback, sleepHoursCallback, sleepMillisecondsCallback, sleepMinutesCallback, sleepSecondsCallback, sleepyLoopBetween, sleepyLoopUntilToday } from './utils/sleep';
 import { dateToString, excludeKeyWithValuesOfType, isMeantToBeFalse, isMeantToBeTrue, toString } from './utils/uncategorized';
 import { DAY_IN_MILLISECONDS, getDateRangeFromTimeframe, getPastTimeRange, getThisDayTimeRange, getThisMonthTimeRange, getThisWeekTimeRange, getThisYearTimeRange, getTimeframeFromDateRange, getTimeRangeFromDateRange, getTimeRangeFromTimeframe, HOUR_IN_MILLISECONDS, isSameTimeRange, timeWindowToMilliseconds } from './utils/time';
 import { combineReturns, composeAccumulate, composeWithPromise, simpleCombineReturns } from './utils/ramda';
-import logger, { loggerGen } from './utils/logger';
+import logger, { createLogger } from './utils/logger';
 import { deleteCookie, getCookie, setCookie } from './utils/cookie';
 import { entriesMap } from './utils/entriesPromise';
 import { Either, Left, Right, either } from './utils/functional';
@@ -60,7 +59,8 @@ export {
   isMeantToBeTrue,
   Left,
   logger,
-  loggerGen,
+  createLogger as loggerGen,
+  createLogger,
   loggedSleep,
   logSleptForSeconds,
   loopBetweenDayStarts,
@@ -88,7 +88,7 @@ export {
   sleepyLoopBetween,
   sleepyLoopUntilToday,
   sendSMS,
-  starEvents,
+  createStarEvents as starEvents,
   startOfDay,
   startOfTimeUnit,
   timeIsMinutesAroundTargetGen,

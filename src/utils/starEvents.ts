@@ -1,3 +1,5 @@
+import { createLogger, Logger } from "./logger";
+
 export type Callback = (...args: unknown[]) => void;
 
 export interface Subscribers {
@@ -7,6 +9,10 @@ export interface Subscribers {
   delete(eventName: string): void;
   clear(): void;
   toJSON(): Record<string, Callback[]>;
+}
+
+export interface EventEmitterOptions {
+  logger?: Logger;
 }
 
 export interface EventEmitter {
@@ -42,7 +48,7 @@ export interface EventEmitter {
   offAll: (eventName: string) => void;
 }
 
-export const createSubscribers = (): Subscribers => {
+export const createSubscribers = (logger: Logger): Subscribers => {
   const subscriptions = new Map<string, Set<Callback>>();
 
   return {
@@ -54,25 +60,33 @@ export const createSubscribers = (): Subscribers => {
       const current = this.get(eventName);
       current.add(callback);
       subscriptions.set(eventName, current);
+      logger.info(`Added subscriber for event "${eventName}"`);
     },
 
     remove(eventName: string, callback: Callback): void {
       const current = this.get(eventName);
-      current.delete(callback);
+      const existed = current.delete(callback);
+      if (existed) {
+        logger.info(`Removed subscriber for event "${eventName}"`);
+      }
 
-      if (current.size === 0) {
+      if (existed && current.size === 0) {
         subscriptions.delete(eventName);
+        logger.info(`All subscribers removed for event "${eventName}"`);
       } else {
         subscriptions.set(eventName, current);
       }
     },
 
     delete(eventName: string): void {
-      subscriptions.delete(eventName);
+      if (subscriptions.delete(eventName)) {
+        logger.info(`Deleted all subscribers for event "${eventName}"`);
+      }
     },
 
     clear(): void {
       subscriptions.clear();
+      logger.info('Cleared all subscribers');
     },
 
     toJSON(): Record<string, Callback[]> {
@@ -86,6 +100,12 @@ export const createSubscribers = (): Subscribers => {
   };
 };
 
+export const validateEventName = (eventName: string, isEmit = false): void => {
+  if (isEmit && eventName === '*') {
+    throw new Error('Cannot emit wildcard (*) event directly');
+  }
+};
+
 /**
  * Creates an event emitter with support for wildcards and error handling
  *
@@ -95,14 +115,9 @@ export const createSubscribers = (): Subscribers => {
  * - Type-safe event handling
  * - Memory leak prevention with automatic cleanup
  */
-const createEventEmitter = (): EventEmitter => {
-  const subscribers = createSubscribers();
-
-  const validateEventName = (eventName: string, isEmit = false): void => {
-    if (isEmit && eventName === '*') {
-      throw new Error('Cannot emit wildcard (*) event directly');
-    }
-  };
+const createEventEmitter = (options: EventEmitterOptions = {}): EventEmitter => {
+  const logger = options.logger ?? createLogger();
+  const subscribers = createSubscribers(logger);
 
   const emit: EventEmitter['emit'] = (eventName, ...params) => {
     validateEventName(eventName, true);
@@ -110,11 +125,17 @@ const createEventEmitter = (): EventEmitter => {
     const eventSubscribers = Array.from(subscribers.get(eventName));
     const starSubscribers = Array.from(subscribers.get('*'));
 
-    [...eventSubscribers, ...starSubscribers].forEach(callback => {
+    logger.info(`Emitting event "${eventName}"`, ...params);
+
+    [...eventSubscribers, ...starSubscribers].forEach((callback, index) => {
       try {
         callback(...params);
+        logger.info(`Called subscriber #${index + 1} for event "${eventName}"`);
       } catch (error) {
-        console.error(`Error in event handler for ${eventName}:`, error);
+        logger.error(
+          `Error in subscriber #${index + 1} for event "${eventName}":`,
+          error
+        );
       }
     });
   };
