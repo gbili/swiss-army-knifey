@@ -92,30 +92,7 @@ emitter.emit('userLoggedIn', { id: 1 }); // Error: missing 'name' property
 
 ## Ramda Compose With Promise
 
-Added typings to composeWithPromise
-
-```ts
-  it('should await and return a composed result', async function() {
-    const paramToProp = (param: string) => ({ param });
-    const sleepingSentence = (s: number) => async ({ param }: { param: string }) => {
-      const d1 = new Date();
-      await sleep(s, TimeUnit.second);
-      const d2 = new Date();
-      return `a_[${param}], slept for: ${d2.getTime() - d1.getTime()}`;
-    };
-    const toUp = async (param: string) => param.toUpperCase();
-    const removeStart = async (param: string) => param.slice(1);
-    const composed = composeWithPromise(
-      removeStart,
-      sleepingSentence(1),
-      paramToProp,
-      toUp,
-      sleepingSentence(2),
-      paramToProp
-    );
-    return expect(composed('hey')).to.eventually.match(/_\[A_\[HEY\], SLEPT FOR: \d{4}\], slept for: \d{3,4}$/g);
-  });
-```
+**SPLIT PROJECT**: you can now find ramda utility functions in `swiss-army-knifey-ramda`
 
 ## Sleep
 

@@ -1,6 +1,6 @@
 {
   "name": "swiss-army-knifey",
-  "version": "1.32.2",
+  "version": "1.33.0",
   "description": "node equivalent of browser str.prototype.padStart str.prototype.padEnd",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
@@ -36,13 +36,13 @@
     "chai": "4.3.10",
     "chai-as-promised": "^7.1.1",
     "mocha": "^10.2.0",
+    "nock": "^14.0.1",
     "sinon": "^19.0.2"
   },
   "directories": {
     "test": "test"
   },
   "dependencies": {
-    "dotenv": "^8.0.0",
-    "ramda": "^0.27.1"
+    "dotenv": "^8.0.0"
   }
 }

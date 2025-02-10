@@ -1,7 +1,7 @@
 import fs from 'fs';
 import http from 'http';
 import https from 'https';
-import { compose } from 'ramda';
+import { compose } from '../compose';
 
 type Resolve<T> = T & { response: http.IncomingMessage; };
 

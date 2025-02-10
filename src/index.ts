@@ -11,12 +11,12 @@ import sendSMS from './utils/sendSMS';
 import sleep, { loggedSleep, logSleptForSeconds, sleepDaysCallback, sleepForCallback, sleepHoursCallback, sleepMillisecondsCallback, sleepMinutesCallback, sleepSecondsCallback, sleepyLoopBetween, sleepyLoopUntilToday } from './utils/sleep';
 import { dateToString, excludeKeyWithValuesOfType, isMeantToBeFalse, isMeantToBeTrue, toString } from './utils/uncategorized';
 import { DAY_IN_MILLISECONDS, getDateRangeFromTimeframe, getPastTimeRange, getThisDayTimeRange, getThisMonthTimeRange, getThisWeekTimeRange, getThisYearTimeRange, getTimeframeFromDateRange, getTimeRangeFromDateRange, getTimeRangeFromTimeframe, HOUR_IN_MILLISECONDS, isSameTimeRange, timeWindowToMilliseconds } from './utils/time';
-import { combineReturns, composeAccumulate, composeWithPromise, simpleCombineReturns } from './utils/ramda';
 import logger, { createLogger } from './utils/logger';
 import { deleteCookie, getCookie, setCookie } from './utils/cookie';
 import { entriesMap } from './utils/entriesPromise';
 import { Either, Left, Right, either } from './utils/functional';
 import { envHasKeyGen, getTypedKey, DB_VAR_NAMES, envHasKeys, areKeysInEnv, areDBKeysInEnv } from './utils/env';
+import { compose } from './utils/compose';
 
 export type { UnknownEnv } from './utils/env';
 
@@ -24,11 +24,9 @@ export {
   arrayOf,
   arrayUnique,
   arraySum,
-  combineReturns,
+  compose,
   correctDateToMatchTimeInTargetTimeZone,
   createStarEvents,
-  composeWithPromise,
-  composeAccumulate,
   daysBefore,
   dateToString,
   deleteCookie,
@@ -77,7 +75,6 @@ export {
   secondsToYMWDHMS,
   secondsToYMWDHMSSentence,
   setCookie,
-  simpleCombineReturns,
   sleep,
   sleepForCallback,
   sleepMillisecondsCallback,

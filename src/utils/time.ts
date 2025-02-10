@@ -1,4 +1,4 @@
-import { compose } from "ramda";
+import { compose } from "./compose";
 
 export type DateRangeIndex = 'Today' | 'Yesterday' | 'Last 7 Days' | 'Last 30 Days';
 
