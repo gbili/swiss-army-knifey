@@ -1,5 +1,5 @@
 import { correctDateToMatchTimeInTargetTimeZone, daysBefore, endOfDay, endOfTimeUnit, extractParamsFromString, getDateByYmd, getHostTimeZone, getHourDiff, hoursToAddToGoFromSourceToTargetTZ, incrementDateBy, loopBetweenTimes, loopBetweenDayStarts, loopUntilToday, oneDayBefore, toMilliseconds, timeIsMinutesAroundTargetGen, TimeUnit, startOfDay, startOfTimeUnit } from './utils/aroundTargetTime';
-import createStarEvents from 'star-events';
+import { createEventsEmitter as createStarEvents } from 'star-events';
 import { getArrayFromZeroOfLengthN, getArrayRange, arrayOf, arrayUnique, mapSeries, forEachSeries, unmerge, reduceWithBreakSync, reduceWithBreak, arraySum } from './utils/array';
 import { extractIPAddress } from './utils/extractIPAddress';
 import getKeyOrThrow, { hasKey, hasKeyOrThrow, hasOwnProperty } from './utils/envHasKey';
