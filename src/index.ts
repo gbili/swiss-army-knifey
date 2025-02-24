@@ -1,5 +1,5 @@
 import { correctDateToMatchTimeInTargetTimeZone, daysBefore, endOfDay, endOfTimeUnit, extractParamsFromString, getDateByYmd, getHostTimeZone, getHourDiff, hoursToAddToGoFromSourceToTargetTZ, incrementDateBy, loopBetweenTimes, loopBetweenDayStarts, loopUntilToday, oneDayBefore, toMilliseconds, timeIsMinutesAroundTargetGen, TimeUnit, startOfDay, startOfTimeUnit } from './utils/aroundTargetTime';
-import createStarEvents from './utils/starEvents';
+import createStarEvents from 'star-events';
 import { getArrayFromZeroOfLengthN, getArrayRange, arrayOf, arrayUnique, mapSeries, forEachSeries, unmerge, reduceWithBreakSync, reduceWithBreak, arraySum } from './utils/array';
 import { extractIPAddress } from './utils/extractIPAddress';
 import getKeyOrThrow, { hasKey, hasKeyOrThrow, hasOwnProperty } from './utils/envHasKey';
@@ -11,12 +11,12 @@ import sendSMS from './utils/sendSMS';
 import sleep, { loggedSleep, logSleptForSeconds, sleepDaysCallback, sleepForCallback, sleepHoursCallback, sleepMillisecondsCallback, sleepMinutesCallback, sleepSecondsCallback, sleepyLoopBetween, sleepyLoopUntilToday } from './utils/sleep';
 import { dateToString, excludeKeyWithValuesOfType, isMeantToBeFalse, isMeantToBeTrue, toString } from './utils/uncategorized';
 import { DAY_IN_MILLISECONDS, getDateRangeFromTimeframe, getPastTimeRange, getThisDayTimeRange, getThisMonthTimeRange, getThisWeekTimeRange, getThisYearTimeRange, getTimeframeFromDateRange, getTimeRangeFromDateRange, getTimeRangeFromTimeframe, HOUR_IN_MILLISECONDS, isSameTimeRange, timeWindowToMilliseconds } from './utils/time';
-import logger, { createLogger } from './utils/logger';
 import { deleteCookie, getCookie, setCookie } from './utils/cookie';
 import { entriesMap } from './utils/entriesPromise';
 import { Either, Left, Right, either } from './utils/functional';
 import { envHasKeyGen, getTypedKey, DB_VAR_NAMES, envHasKeys, areKeysInEnv, areDBKeysInEnv } from './utils/env';
 import { compose } from './utils/compose';
+import { logger, createLogger } from 'saylo';
 
 export type { UnknownEnv } from './utils/env';
 

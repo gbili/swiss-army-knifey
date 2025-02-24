@@ -1,4 +1,4 @@
-import { Logger as L } from "./utils/logger";
+import { Logger as L } from "saylo";
 export type WithLog = { log : (...params: any[]) => void; }
 export type WithDebug = { debug : (...params: any[]) => void; }
 export type CurryFuncWithDepsGen<D, F> = (deps: D) => F;
