@@ -1,7 +1,7 @@
 export const arrayOf = <T>(value: T) => (length: number): T[] => {
   return Array(length).fill(value);
 }
-export const arrayUnique = <T>(values: T[]) => values.reduce((p: T[], c: T) => p.indexOf(c) === -1 ? [...p, c] : p, []);
+export const arrayUnique = <T>(values: T[]): T[] => Array.from(new Set(values));
 
 export const forEachSeries = async <A, C extends (item: A, index: number|string, array: A[]) => any>(arr: A[], callback: C): Promise<void> => {
   for (const k in arr) {

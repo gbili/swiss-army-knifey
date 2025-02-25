@@ -1,5 +1,5 @@
 import { createEventsEmitter as createStarEvents } from 'star-events';
-import { arrayOf, arrayUnique, mapSeries, forEachSeries, unmerge, reduceWithBreakSync, reduceWithBreak, arraySum } from './utils/array';
+import { arrayOf, arrayUnique, mapSeries, group, forEachSeries, unmerge, reduceWithBreakSync, reduceWithBreak, arraySum, splitBy, type Splition, getArrayFromZeroOfLengthN, getArrayRange } from './utils/array';
 import { extractIPAddress } from './utils/extractIPAddress';
 import getKeyOrThrow, { hasKey, hasKeyOrThrow, hasOwnProperty } from './utils/envHasKey';
 import { hoursAgo, oneHourAgo, secondsToYMWDHMS, secondsToYMWDHMSSentence } from './utils/getStringDate';
@@ -34,6 +34,9 @@ export {
   forEachSeries,
   getCookie,
   getKeyOrThrow,
+  getArrayFromZeroOfLengthN,
+  getArrayRange,
+  group,
   hasKey,
   hasKeyOrThrow,
   hasOwnProperty,
@@ -56,6 +59,7 @@ export {
   secondsToYMWDHMSSentence,
   setCookie,
   sendSMS,
+  Splition,
   createStarEvents as starEvents,
   toString,
   unmerge,
@@ -79,5 +83,6 @@ export {
   getTimeRangeFromTimeframe,
   isSameTimeRange,
   timeWindowToMilliseconds,
+  splitBy,
 };
 export default pad;
