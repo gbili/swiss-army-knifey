@@ -40,12 +40,8 @@ export const mapSeries = async <A, C extends (item: A, index: number|string, arr
   return mapped;
 }
 
-export const unmerge = function <E, C extends (item: E, index: number|string, array: E[]) => boolean>(a: E[], callback: C) {
-  return a.reduce((p: [E[], E[]], c, i): [E[], E[]] => {
-    return callback(c, i, a)
-      ? [[...p[0], c], [...p[1]]]
-      : [[...p[0]], [...p[1], c]]
-  }, [[], []]);
+export const unmerge = function <E, C extends (item: E, index?: number|string, array?: E[]) => boolean>(a: E[], callback: C) {
+  return splitBy(a, callback, true);
 }
 
 export function getArrayFromZeroOfLengthN(n: number) {
@@ -59,14 +55,29 @@ export function getArrayRange(start: number, end: number) {
 
 export function group<T>(array: T[], lense: (el: T) => string) {
   return array.reduce((p, c) => {
-    const k = lense(c);
-    return {
-      ...p,
-      [k]: p[k] ? [...p[k], c] : [c],
-    };
+    const k = String(lense(c) ?? 'unknown'); // Sanitize keys
+    if (!p[k]) p[k] = [];
+    p[k].push(c);
+    return p;
   }, {} as { [k: string]: T[] });
 }
 
 export function arraySum(n: number[]): number {
   return n.reduce((p, c) => p + c, 0);
+}
+
+export type Splition<T> = [T[], T[]]; // [filter true, filter false]
+export function splitBy<T>(array: T[], filter: (element: T, index?: number|string, array?: T[]) => boolean, allowEmpty: boolean = false): Splition<T> {
+  const selected: T[] = [];
+  const unselected: T[] = [];
+
+  for (const i in array) {
+    (filter(array[i], i, array) ? selected : unselected).push(array[i]);
+  }
+
+  if (!allowEmpty && selected.length === 0) {
+    throw new Error('No elements match filter');
+  }
+
+  return [selected, unselected];
 }
