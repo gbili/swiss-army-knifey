@@ -1,3 +1,10 @@
+/**
+ * When passing an object as value, such as an array,
+ * the same array will be passed all around
+ *
+ * @param value 
+ * @returns 
+ */
 export const arrayOf = <T>(value: T) => (length: number): T[] => {
   return Array(length).fill(value);
 }
@@ -87,7 +94,9 @@ export function distribute<T>(
   distributer: (element: T, index?: number | string, array?: T[]) => number,
   options?: { forceLength?: number }
 ): T[][] {
-  const distribution: T[][] = options && options.forceLength ? arrayOf([])(options.forceLength) : [];
+  const distribution: T[][] = options && options.forceLength
+  ? Array.from({ length: options.forceLength }, () => [])
+  : [];
 
   for (const i in array) {
     const key = distributer(array[i], i, array);
