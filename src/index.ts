@@ -1,5 +1,5 @@
 import { createEventsEmitter as createStarEvents } from 'star-events';
-import { arrayOf, arrayUnique, mapSeries, group, forEachSeries, unmerge, reduceWithBreakSync, reduceWithBreak, arraySum, splitBy, type Splition, getArrayFromZeroOfLengthN, getArrayRange } from './utils/array';
+import { arrayOf, arrayUnique, mapSeries, group, forEachSeries, unmerge, reduceWithBreakSync, reduceWithBreak, arraySum, splitBy, type Splition, getArrayFromZeroOfLengthN, getArrayRange, distribute } from './utils/array';
 import { extractIPAddress } from './utils/extractIPAddress';
 import getKeyOrThrow, { hasKey, hasKeyOrThrow, hasOwnProperty } from './utils/envHasKey';
 import { hoursAgo, oneHourAgo, secondsToYMWDHMS, secondsToYMWDHMSSentence } from './utils/getStringDate';
@@ -63,6 +63,7 @@ export {
   createStarEvents as starEvents,
   toString,
   unmerge,
+  distribute,
   envHasKeyGen,
   getTypedKey,
   DB_VAR_NAMES,

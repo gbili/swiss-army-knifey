@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { group, ReducerWithBrakeCallback, reduceWithBreakSync, ShouldBreakCallback, splitBy, unmerge } from '../../src/utils/array';
+import { distribute, group, ReducerWithBrakeCallback, reduceWithBreakSync, ShouldBreakCallback, splitBy, unmerge } from '../../src/utils/array';
 
 describe('pad', function () {
   describe(`zeroPadded(num, len)`, function() {
@@ -61,6 +61,40 @@ describe('pad', function () {
         const [selected, unselected] = splitBy(array, (n) => n > 5, true);
         expect(selected).to.deep.equal([]);
         expect(unselected).to.deep.equal([1, 2, 3]);
+      });
+    });
+
+    // ---- distribute Tests ----
+    describe('distribute', () => {
+      it('should distribute elements into buckets based on filter keys', () => {
+        const array = [1, 2, 3, 4, 5, 6, 7];
+        const result = distribute(array, (n) => {
+          if (n <= 3) return 0;
+          if (n <= 6) return 1;
+          return 2;
+        });
+        expect(result[0]).to.deep.equal([1, 2, 3]);
+        expect(result[1]).to.deep.equal([4, 5, 6]);
+        expect(result[2]).to.deep.equal([7]);
+      });
+
+      it('should return an empty distribution for an empty array', () => {
+        const array: number[] = [];
+        const result = distribute(array, () => 0);
+        expect(result).to.deep.equal([]);
+      });
+
+      it('should handle non-sequential keys correctly', () => {
+        const array = [1, 2, 3];
+        // Return key 2 for elements 1 and 3, and key 5 for element 2.
+        const result = distribute(array, (n) => (n === 1 || n === 3 ? 2 : 5));
+        expect(result[2]).to.deep.equal([1, 3]);
+        expect(result[5]).to.deep.equal([2]);
+        // Ensure that indices with no assigned elements are undefined.
+        expect(result[0]).to.equal(undefined);
+        expect(result[1]).to.equal(undefined);
+        expect(result[3]).to.equal(undefined);
+        expect(result[4]).to.equal(undefined);
       });
     });
 
