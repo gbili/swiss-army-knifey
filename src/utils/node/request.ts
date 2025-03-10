@@ -100,9 +100,11 @@ export const request = async function (uri: string, options?: SAKRequestOptions)
 
 export const get = request;
 
-export const getPHPSESSIDWithoutPathOrEmpty = <Z, T extends Resolve<Z>>(res: T extends Resolve<infer O> ? Resolve<O> : never): string[] => res.response.headers['set-cookie'] ? res.response.headers['set-cookie'].filter(v => v.substring(0, 'PHPSESSID'.length) === 'PHPSESSID').map(v => v.split(';')[0]) : [];
+export const getPHPSESSIDWithoutPathOrEmpty = <Z, T extends Resolve<Z>>(res: T extends Resolve<infer O> ? Resolve<O> : never): string[] => res.response.headers['set-cookie']
+  ? res.response.headers['set-cookie'].filter(v => v.substring(0, 'PHPSESSID'.length) === 'PHPSESSID').map(v => v.split(';')[0])
+  : [];
 
-export const createHeadersOptionWithCookie = (cookiesString: string | undefined) => {
+export const createHeadersOptionWithCookie = (cookiesString?: string) => {
   return {
     headers : cookiesString ? { Cookie: cookiesString } : {},
   };
@@ -110,5 +112,23 @@ export const createHeadersOptionWithCookie = (cookiesString: string | undefined)
 
 const firstElementOrUndefined = (a: string[]): string | undefined => a[0];
 export const createHeadersWithPHPSESSID = compose(createHeadersOptionWithCookie, firstElementOrUndefined, getPHPSESSIDWithoutPathOrEmpty);
+
+export const getBearerToken = <Z, T extends Resolve<Z>>(res: T extends Resolve<infer O> ? Resolve<O> : never): string | undefined => {
+  const authHeader = res.response.headers['authorization'];
+  if (typeof authHeader === 'string') {
+    if (authHeader.startsWith('Bearer ')) {
+      return authHeader.split('Bearer ')[1]; // Remove "Bearer " (7 characters)
+    }
+  }
+  return undefined;
+};
+
+export const createHeadersOptionWithBearerToken = (token?: string) => {
+  return {
+    headers: token ? { Authorization: `Bearer ${token}` } : {}
+  };
+};
+
+export const createHeadersWithBearerToken = compose(createHeadersOptionWithBearerToken, getBearerToken);
 
 export default request;
