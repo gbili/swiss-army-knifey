@@ -84,12 +84,13 @@ export function splitBy<T>(array: T[], filter: (element: T, index?: number|strin
 
 export function distribute<T>(
   array: T[],
-  filter: (element: T, index?: number | string, array?: T[]) => number
+  distributer: (element: T, index?: number | string, array?: T[]) => number,
+  options?: { forceLength?: number }
 ): T[][] {
-  const distribution: T[][] = [];
+  const distribution: T[][] = options && options.forceLength ? arrayOf([])(options.forceLength) : [];
 
   for (const i in array) {
-    const key = filter(array[i], i, array);
+    const key = distributer(array[i], i, array);
     if (!distribution[key]) {
       distribution[key] = [];
     }
